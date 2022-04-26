@@ -1,0 +1,69 @@
+@import 'variables';
+@import 'reset';
+@import 'animation';
+@import 'mixin';
+
+@import '../layout/HomeLayout/index';
+@import '../layout/AdminLayout/index';
+
+@import '../pages/Home/index';
+@import '../pages/Article/index';
+@import '../pages/Editor/index';
+
+@import '../components/Article/index';
+@import '../components/ArticleCard/index';
+@import '../components/RhNav/index';
+@import '../components/RhProgress/index';
+
+::selection { 
+	color: $white;
+	background: $green;
+}
+
+:root {
+	--theme-color: red;
+}
+
+#root {
+	height: 100vh;
+	overflow: hidden;
+	background: $gray-800;
+	// background: var(--theme-color);
+}
+
+::-webkit-scrollbar{
+	width: 6px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb {
+	border-right: 1px solid transparent;
+	border-left: 1px solid transparent;
+}
+/*定义滚动条顶部（左侧）的按钮块*/
+::-webkit-scrollbar-button:start,
+::-webkit-scrollbar-button:end {
+	width: 0px;
+	height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	background-color: $gray-500;
+}
+// /*定义水平和垂直滚动条两者的交界处（拐角）*/
+::-webkit-scrollbar-corner {
+	display: block;
+}
+
+::-webkit-scrollbar-track:hover {
+	background-color: rgba(0, 0, 0, 0.25);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	background-color: rgba(0, 0, 0, 0.5);
+}

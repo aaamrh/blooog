@@ -1,0 +1,33 @@
+.rh-navs{
+	display: flex;
+	list-style: none;
+	flex-direction: row;
+	justify-content: start;
+	margin: 0;
+	// margin-top: $gap-base;
+
+	.rh-nav{
+		cursor: pointer;
+		margin-left: $gap-base;
+
+		a{
+			display: inline-block;
+			color: $black;
+			line-height: $line-height-base;
+			margin-bottom: -2px;
+			padding: $gap-sm $gap-sm;
+		}
+
+		a.active{
+			border-bottom: 2px solid $green;
+			color: $black;
+		}
+
+		&:hover{
+			a{
+				border-bottom: 2px solid $green;
+				color: $black;
+			}
+		}
+	}
+}

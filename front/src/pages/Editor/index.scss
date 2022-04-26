@@ -1,0 +1,72 @@
+.page-editor{
+  height: 100%;
+  overflow: auto;
+
+  .editor-main{
+    display: flex;
+    justify-content: space-around;
+
+    .m-selections{
+      background: rgba(255, 255, 255, .1);
+      box-shadow: 20px 20px 50px rgba(0,0,0,0.5);
+      margin-top: 20px;
+      color: $white;
+
+      .selection{
+        padding: 10px;
+        border-bottom: 1px solid $gray-800;
+        h4{
+          margin: $gap-mn
+        }
+        label{
+          display: inline-block;
+          white-space: nowrap;
+          padding: $gap-sm;
+          margin: $gap-mn;
+          cursor: pointer;
+          &:hover{
+            color: $gray-900;
+          }
+          input{
+            margin-left: $gap-mn;
+          }
+        }
+      }
+    }
+    
+    .m-selections,
+    .placeholder{
+      width: 280px;
+    }
+    
+    .editor-container{
+      // margin: 20px auto 0;
+      margin-top: 20px;
+      width: 850px;
+      height: 780px;
+      padding: $gap-lg;
+      background: $white;
+      overflow: auto;
+      
+  
+      .editor-title{
+        border-bottom: 1px solid $gray-400;
+        padding-bottom: $gap-base;
+        input{
+          outline: none;
+          border: none;
+          font-size: 30px;
+        }
+      }
+    }
+
+    .placeholder{
+    }
+  }
+
+  .save{
+    // position: absolute;
+    // right: 20px;
+    // top: 20px;
+  }
+}

@@ -1,0 +1,37 @@
+.rh-profile-card{
+	padding: $gap-sm $gap-lg;
+	margin-bottom: $gap-lg;
+	background: $white;
+	border-radius: $gap-base;
+	box-shadow: 1px 1px 5px -1px $gray-500;
+
+	&__title{
+		margin: $gap-base 0;
+	}
+
+	&__content{
+		line-height: $line-height-base;
+		color: $gray-600;
+		background: lighten($gray-300, 5%);
+		padding: $gap-base;
+		border-radius: $gap-base;
+		max-height: 65px;
+		overflow: hidden;
+	}
+
+	&__footer{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: $gap-sm;
+
+		.infos{
+			display: flex;
+			font-size: $font-size-sm;
+			color: $gray-600;
+			.info{
+				margin-right: $gap-base;
+			}
+		}
+	}
+}

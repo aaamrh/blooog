@@ -1,0 +1,13 @@
+.m-article{
+  overflow: hidden;
+  .article-info{
+    font-size: $font-size-sm;
+    color: $gray-500;
+    a{
+      color: $green;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+  }
+}
