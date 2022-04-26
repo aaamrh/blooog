@@ -9,20 +9,18 @@ const logger = require('koa-logger')
 const index = require('./routes/index')
 const users = require('./routes/users')
 
-// error handler
+// error handler 页面上显示错误
 onerror(app)
 
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
-app.use(json())
+app.use(json()) // bodyparser解析完json是string, json()是转换成对象
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
-app.use(views(__dirname + '/views', {
-  extension: 'pug'
-}))
+app.use(views(__dirname + '/views', { extension: 'pug' }))
 
 // logger
 app.use(async (ctx, next) => {

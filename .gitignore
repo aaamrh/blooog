@@ -4,10 +4,10 @@ node_modules
 .pnp.js
 
 # testing
-/client/coverage
+/front/coverage
 
 # production
-/client/build
+/front/build
 
 # misc
 .DS_Store
@@ -19,3 +19,5 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+uploadFiles
