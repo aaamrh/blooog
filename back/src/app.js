@@ -7,7 +7,6 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
 const index = require('./routes/index')
-const users = require('./routes/users')
 
 // error handler 页面上显示错误
 onerror(app)
@@ -17,7 +16,7 @@ app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
 app.use(json()) // bodyparser解析完json是string, json()是转换成对象
-app.use(logger())
+// app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
 app.use(views(__dirname + '/views', { extension: 'pug' }))
@@ -32,7 +31,6 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
