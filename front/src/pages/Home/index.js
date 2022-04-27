@@ -32,7 +32,7 @@ function Home (props) {
 	useEffect(()=>{
 		axios.get('/api/article/123').then(res=>{
 			const {code, data} = res;
-			console.log(res, '12111111111')
+			console.log(res, '前后台调试成功')
 			// if(!code){ setArticles(data.data) }
 		})		
 	}, []);
