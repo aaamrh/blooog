@@ -5,7 +5,7 @@ import axios from 'axios';
 import RhNav from "../../components/RhNav";
 import { subNavs } from "../../conf";
 
-import  '../../mock/test.mock';
+// import  '../../mock/test.mock';
 
 let canGetMoreArticles = true; // 是否可以获取更多文章
 
@@ -30,9 +30,10 @@ function Home (props) {
 	// 首页是 所有文章,最新的
 	// 
 	useEffect(()=>{
-		axios.get('/api/article').then(res=>{
+		axios.get('/api/article/123').then(res=>{
 			const {code, data} = res;
-			if(!code){ setArticles(data.data) }
+			console.log(res, '12111111111')
+			// if(!code){ setArticles(data.data) }
 		})		
 	}, []);
 
