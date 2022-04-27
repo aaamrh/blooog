@@ -3,7 +3,7 @@ import Mock from 'mockjs';
 Mock.mock('/api/article', 'get', {
   code: 0,
   message: '获取文章列表成功！',
-  'data|6': [
+  'data|7': [
     {
       id: '@increment(1)',      // 自增的Id值
       read: '@natural(100, 999)',
@@ -19,7 +19,7 @@ Mock.mock('/api/article', 'get', {
 Mock.mock('/api/article/more', 'get', {
   code: 0,
   message: '获取文章列表成功！',
-  'data|6': [
+  'data|7': [
     {
       id: '@increment(1)',      // 自增的Id值
       read: '@natural(100, 999)',
