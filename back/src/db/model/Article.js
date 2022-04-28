@@ -1,5 +1,5 @@
 const seq = require('../seq')
-const { INTEGER, STRING } = require('../types')
+const { INTEGER, STRING, TEXT } = require('../types')
 
 const Article = seq.define('article', {
   userId: {
