@@ -30,7 +30,7 @@ function Home (props) {
 	// 首页是 所有文章,最新的
 	// 
 	useEffect(()=>{
-		axios.get('/api/article/123').then(res=>{
+		axios.get('/api/articles/123').then(res=>{
 			const {code, data} = res;
 			console.log(res, '前后台调试成功')
 			// if(!code){ setArticles(data.data) }

@@ -19,3 +19,14 @@
     &after_id=35      返回【36, 37, 38, 39, 40, 41】
     &ad_interval=-10 
 -->
+
+## Doing
+
+    Table: Items
+    Columns: Item_ID, Item_Title, Content
+
+    Table: Tags
+    Columns: Tag_ID, Tag_Title
+
+    Table: Items_Tags
+    Columns: Item_ID, Tag_ID
