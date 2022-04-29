@@ -189,6 +189,7 @@ function IEditor(props) {
 
   const submit = () => {
     console.log('发布文章：',  htmlContent, editor.getHtml())
+    
   }
 
   return (
