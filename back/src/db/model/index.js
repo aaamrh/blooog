@@ -6,8 +6,8 @@ Article.belongsTo(User, {
   foreignKey: 'userId'
 })
 
-Classify.belongsTo(Article, {
-  foreignKey: 'articleId'
+Article.belongsTo(Classify, {
+  foreignKey: 'classifyId'
 })
 
 module.exports = {

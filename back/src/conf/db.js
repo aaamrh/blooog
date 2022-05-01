@@ -13,7 +13,7 @@ if (isProd) {
     user: 'root',
     password: 'ma.1996',
     database: 'blooog',
-    host: 'localhost',
+    host: 'localhost' ,
     port: 3306
   }
 }

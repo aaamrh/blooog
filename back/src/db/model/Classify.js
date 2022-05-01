@@ -12,7 +12,9 @@ const Classify = seq.define('classify', {
     default: 0,
     allowNull: false,
     comment: '父分类id'
-  }
+  },
+}, {
+  timestamps: false
 })
 
 module.exports = Classify
