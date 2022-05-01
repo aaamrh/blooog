@@ -7,7 +7,10 @@ module.exports = {
     code: 10102,
     message: '创建文章失败，请重试'
   },
-
+  getArticleFailInfo: {
+    code: 10101,
+    message: '查找文章失败，请重试'
+  },
 }
 
 /** 

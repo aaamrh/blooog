@@ -1,4 +1,4 @@
-const { Article } = require('../db/model')
+const { Article, Classify } = require('../db/model')
 
 async function createArticle ({ title, content, classifyId, userId }) {
   const result = await Article.create({
@@ -11,6 +11,20 @@ async function createArticle ({ title, content, classifyId, userId }) {
   return result.dataValues
 }
 
+async function selectArticle (id) {
+  const result = await Article.findOne({
+    where: { id },
+    include: [
+      {
+        model: Classify
+      }
+    ]
+  })
+  console.log(result.dataValues)
+  return result.dataValues
+}
+
 module.exports = {
-  createArticle
+  createArticle,
+  selectArticle
 }
