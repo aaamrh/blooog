@@ -20,7 +20,6 @@ async function selectArticle (id) {
       }
     ]
   })
-  console.log(result.dataValues)
   return result.dataValues
 }
 

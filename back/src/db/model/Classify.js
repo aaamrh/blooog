@@ -2,10 +2,15 @@ const seq = require('../seq')
 const { STRING, INTEGER } = require('../types')
 
 const Classify = seq.define('classify', {
-  name: {
+  type: {
     type: STRING,
     allowNull: false,
     comment: '分类类型'
+  },
+  name: {
+    type: STRING,
+    allowNull: false,
+    comment: '分类类型文字展示'
   },
   parentId: {
     type: INTEGER,
