@@ -31,7 +31,7 @@ function Home (props) {
 	// 
 	useEffect(()=>{
 		axios.get('/api/articles/123').then(res=>{
-			const {code, data} = res;
+			const { code, data } = res;
 			console.log(res, '前后台调试成功')
 			// if(!code){ setArticles(data.data) }
 		})		
@@ -39,7 +39,7 @@ function Home (props) {
 
 	const getMoreArticles = function() {
 		axios.get('/api/article/more').then(res=>{
-			const {code, data} = res;
+			const { code, data } = res;
 			canGetMoreArticles = true;
 			setArticles(articles.concat(data.data));
 		})
