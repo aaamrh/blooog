@@ -16,7 +16,11 @@ function useLoadmore (cb) {
         if( can ){
           can = false
           console.log('请求中 不能请求了')
-          cb().finally(()=>{
+          cb().then(res=>{
+            const { code, data } = res;
+            console.log(data)
+            setData(data)
+          }).finally(()=>{
             setTimeout(() => {
               can = true
             }, 30);

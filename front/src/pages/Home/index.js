@@ -31,14 +31,22 @@ function Home (props) {
 
 	const getMoreArticles1 = function() {
 		return axios.get('/api/articles/more')
-		.then(res=>{
-			const { code, data } = res;
-			console.log(data)
-			// setArticles(state => state.concat(data.data));
-		})
+		// .then(res=>{
+		// 	const { code, data } = res;
+		// 	console.log(data)
+		// 	// setArticles(state => state.concat(data.data));
+		// })
 	}	
 
 	const [loadMore, domRef, data] = useLoadmore(getMoreArticles1)
+
+	useEffect(() => {
+		console.log('data')
+		if (data) {
+			setArticles(state => state.concat(data.data));
+		}
+	}, [data])
+
 
 	// useGetClassifies()
 	let subNav = subNavs[`/${pathname.split('/')[1]}`] || [];
