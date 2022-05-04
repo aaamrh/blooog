@@ -1,6 +1,6 @@
 import Mock from 'mockjs';
 
-Mock.mock('/api/article', 'get', {
+Mock.mock('/api/articles', 'get', {
   code: 0,
   message: '获取文章列表成功！',
   'data|7': [
@@ -16,7 +16,7 @@ Mock.mock('/api/article', 'get', {
 })
 
 
-Mock.mock('/api/article/more', 'get', {
+Mock.mock('/api/articles/more', 'get', {
   code: 0,
   message: '获取文章列表成功！',
   'data|7': [
@@ -32,7 +32,7 @@ Mock.mock('/api/article/more', 'get', {
 })
 
 
-Mock.mock('/api/article/:id', 'get', {
+Mock.mock('/api/articles/:id', 'get', {
   code: 0,
   message: '获取文章详情成功！',
   data: {

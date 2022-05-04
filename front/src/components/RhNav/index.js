@@ -3,7 +3,6 @@ import {NavLink} from 'react-router-dom';
 
 function RhNav(props){
   let { navlist, pathname, className } = props;
-	console.log(123)
   return (
     <ul className={`rh-navs ${className ? className : ''}`}>
 				{

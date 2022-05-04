@@ -7,7 +7,8 @@ import RhNav from '../../components/RhNav';
 import { subNavs } from '../../conf';
 import { useGetClassifies } from '../../store/action';
 
-// import  '../../mock/test.mock';
+import  '../../mock/test.mock';
+import useLoadmore from '../../hooks/useScroll';
 
 let canGetMoreArticles = true; // 是否可以获取更多文章
 
@@ -27,8 +28,17 @@ function Home (props) {
 	const {pathname} = useLocation();
 	const [articles, setArticles] = useState([]);
 	const { classify } = useSelector(state => state.classify)
-	
-	console.log(classify)
+
+	const getMoreArticles1 = function() {
+		return axios.get('/api/articles/more')
+		.then(res=>{
+			const { code, data } = res;
+			console.log(data)
+			// setArticles(state => state.concat(data.data));
+		})
+	}	
+
+	const [loadMore, domRef, data] = useLoadmore(getMoreArticles1)
 
 	// useGetClassifies()
 	let subNav = subNavs[`/${pathname.split('/')[1]}`] || [];
@@ -36,15 +46,15 @@ function Home (props) {
 	// 首页是 所有文章,最新的
 	// 
 	useEffect(()=>{
-		axios.get('/api/articles/123').then(res=>{
+		axios.get('/api/articles').then(res=>{
 			const { code, data } = res;
 			console.log(res, '前后台调试成功')
-			// if(!code){ setArticles(data.data) }
+			if(!code){ setArticles(data.data) }
 		})		
 	}, []);
 
 	const getMoreArticles = function() {
-		axios.get('/api/article/more').then(res=>{
+		axios.get('/api/articles/more').then(res=>{
 			const { code, data } = res;
 			canGetMoreArticles = true;
 			setArticles(articles.concat(data.data));
@@ -55,7 +65,8 @@ function Home (props) {
 		<RhNav className='nav' navlist={subNav} pathname={pathname} />
 
 		<div className="content"
-			onScroll={onScroll(getMoreArticles)}
+			// onScroll={onScroll(getMoreArticles)}
+			ref={ domRef }
 		>
 			<div className="alpha">
 					{/* <ArticleCard 
