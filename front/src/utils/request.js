@@ -59,3 +59,4 @@ const formatErrMsg = (error, errors, resp) => {
 }
 
 export default Request
+// export default new Request()  

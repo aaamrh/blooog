@@ -1,9 +1,11 @@
 import { lazy, Suspense, useState, useEffect, memo, useMemo } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 import ArticleCard from '../../components/ArticleCard';
 import axios from 'axios';
-import RhNav from "../../components/RhNav";
-import { subNavs } from "../../conf";
+import RhNav from '../../components/RhNav';
+import { subNavs } from '../../conf';
+import { useGetClassifies } from '../../store/action';
 
 // import  '../../mock/test.mock';
 
@@ -24,7 +26,11 @@ function onScroll(cb) {
 function Home (props) {
 	const {pathname} = useLocation();
 	const [articles, setArticles] = useState([]);
+	const { classify } = useSelector(state => state.classify)
+	
+	console.log(classify)
 
+	// useGetClassifies()
 	let subNav = subNavs[`/${pathname.split('/')[1]}`] || [];
 
 	// 首页是 所有文章,最新的

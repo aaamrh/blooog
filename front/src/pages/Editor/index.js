@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import '@wangeditor/editor/dist/css/style.css';
-import axios from 'axios';
+import request from '../../utils/request';
 
 const classify = [
   {
@@ -162,12 +162,14 @@ function IEditor(props) {
   useEffect(()=>{
     // TODO: 如果有文章id 则默认内容是文章数据
     if (props.match.params?.article_id) {
-      axios.get('/api/article/:id').then(res=>{
+      request.get('/api/article/:id').then(res=>{
         const {data} = res.data;
         setHtmlContent(data.content)
       });
     }
     setIsEditorShow(true)
+
+    request.get('')
   }, []);
   
   const onChange = (e) => {

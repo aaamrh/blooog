@@ -46,7 +46,10 @@
     ]
   },
   "devDependencies": {
+    "@reduxjs/toolkit": "^1.8.1",
     "http-proxy-middleware": "^2.0.6",
-    "mockjs": "^1.1.0"
+    "mockjs": "^1.1.0",
+    "react-redux": "^8.0.1",
+    "redux": "^4.2.0"
   }
 }
