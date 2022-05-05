@@ -7,7 +7,7 @@ const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
 const index = require('./routes/index')
-
+const articleAPIRouter = require('./routes/article');
 // error handler 页面上显示错误
 onerror(app)
 
@@ -31,6 +31,7 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(index.routes(), index.allowedMethods())
+app.use(articleAPIRouter.routes(), articleAPIRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
