@@ -1,130 +1,33 @@
+/**
+ * 变量中大写C => classify 的简写
+ */
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import '@wangeditor/editor/dist/css/style.css';
 import request from '../../utils/request';
+import { useGetClassify } from '../../store/action';
 
-const classify = [
-  {
-    id: 1,
-    title: '前端',
-    value: 'front-end',
-    pid: 0,
-  },
-  {
-    id: 5,
-    title: 'JavaScript',
-    value: 'js',
-    pid: 1
-  },
-  {
-    id: 6,
-    title: 'React',
-    value: 'react',
-    pid: 1
-  },
-  {
-    id: 7,
-    title: 'Vue',
-    value: 'vue',
-    pid: 1
-  },
-  {
-    id: 8,
-    title: 'Threejs',
-    value: 'threejs',
-    pid: 1
-  },
-  {
-    id: 9,
-    title: 'WebGL',
-    value: 'webgl',
-    pid: 1
-  },
-  {
-    id: 2,
-    title: '后端',
-    value: 'back-end',
-    pid: 0
-  },
-  {
-    id: 10,
-    title: 'Node',
-    value: 'node',
-    pid: 2
-  },
-  {
-    id: 11,
-    title: 'Koa',
-    value: 'koa',
-    pid: 2
-  },
-  {
-    id: 12,
-    title: 'Express',
-    value: 'express',
-    pid: 2
-  },
-  {
-    id: 13,
-    title: 'Flask',
-    value: 'flask',
-    pid: 2
-  },
-  {
-    id: 3,
-    title: '日记',
-    value: 'diary',
-    pid: 0
-  },
-  {
-    id: 14,
-    title: '理财',
-    value: 'financing',
-    pid: 3
-  },
-  {
-    id: 15,
-    title: '健康',
-    value: 'health',
-    pid: 3
-  },
-  {
-    id: 16,
-    title: '观点与感悟',
-    value: 'think',
-    pid: 3
-  },
-  {
-    id: 4,
-    title: '数据库',
-    value: 'database',
-    pid: 0
-  },
-  {
-    id: 17,
-    title: 'MySQL',
-    value: 'mysql',
-    pid: 4
-  },
-  {
-    id: 18,
-    title: 'MongoDB',
-    value: 'mongodb',
-    pid: 4
-  }
-]
-
+function notEmptyArr (arr) {
+  return arr.length > 0
+}
 
 function IEditor(props) {
+  // 富文本状态
   const [editor, setEditor] = useState(null) // 存储 editor 实例
-  const [htmlContent, setHtmlContent] = useState('');
-  const [isEditorShow, setIsEditorShow] = useState(false);
-  const [firstC, setFirstC] = useState( classify.find(o => o.pid === 0).id )
-  const [secondC, setSecondC] = useState( classify.find(item => item.pid === classify.find(o => o.pid === 0).id).id )
+  const [htmlContent, setHtmlContent] = useState('')
+  const [isEditorShow, setIsEditorShow] = useState(false)
+  // 其他状态
+  const { data: classify } = useSelector(state => state.classify)
+  const [firstCId, setFirstCId] = useState(-1)
+  const [secondCId, setSecondCId] = useState(-1)
   const [form, setForm] = useState({
     title: '',
     content: ''
-  });
+  })
+  // state end
+  
+  const getClassify = useGetClassify()
 
   const defaultContent = [
     { type: "paragraph", children: [{ text: `123` }], }
@@ -145,6 +48,14 @@ function IEditor(props) {
     }
   }
 
+  if (firstCId < 0 && notEmptyArr(classify)) {
+    const _firstCId = +(classify.find(o => o.parentId === 0).id)
+    const _secondCId = +((classify.find(item => +item.parentId === _firstCId))?.id)
+    setFirstCId(_firstCId)
+    setSecondCId(_secondCId)
+  }
+  console.log(classify )
+
   // 及时销毁 editor ，重要！
   useEffect(() => {
     return () => {
@@ -162,26 +73,26 @@ function IEditor(props) {
   useEffect(()=>{
     // TODO: 如果有文章id 则默认内容是文章数据
     if (props.match.params?.article_id) {
-      request.get('/api/article/:id').then(res=>{
-        const {data} = res.data;
-        setHtmlContent(data.content)
-      });
+      // request.get('/api/article/:id').then(res=>{
+      //   const {data} = res.data;
+      //   setHtmlContent(data.content)
+      // });
     }
     setIsEditorShow(true)
 
-    request.get('')
+    getClassify()
   }, []);
   
   const onChange = (e) => {
     const target = e.target
 
     if (target.name === 'first-classification') { 
-      setFirstC( +target.value ); 
-      setSecondC( classify.find(o => o.pid === +target.value).id )
+      setFirstCId( +target.value ); 
+      setSecondCId( classify.find(o => o.parentId === +target.value).id )
       return 
     }
 
-    if (target.name === 'second-classification') { setSecondC(target.value); return }
+    if (target.name === 'second-classification') { setSecondCId(target.value); return }
 
     setForm({
       ...form,
@@ -211,36 +122,38 @@ function IEditor(props) {
               <div className='selection'>
                 <h4>一级分类</h4>
                 {
-                  classify.filter(o => o.pid === 0).map(item => {
+                  classify.length && classify.filter(o => o.parentId === 0).map(item => {
                     return <label 
                       htmlFor={item.id} 
                       key={item.id}
                     >
-                      { item.title } :
-                      <input type="radio" name="first-classification" value={item.id} id={item.id} defaultChecked={item.id===firstC} onChange={ onChange } />
+                      { item.name } :
+                      <input type="radio" name="first-classification" value={item.id} id={item.id} defaultChecked={item.id===firstCId} onChange={ onChange } />
                     </label>
                   })
                 }
+                { !classify.length && '暂无分类' }
               </div>
               <div className="selection">
                 <h4>二级分类</h4>
                 {
-                  classify.filter(o => o.pid === +firstC).map(item => {
+                  classify.length && classify.filter(o => o.parentId === +firstCId).map(item => {
                     return <label 
                       htmlFor={item.id} 
                       key={item.id}
                     >
-                      { item.title } :
+                      { item.name } :
                       <input type="radio" 
                         id={item.id} 
                         value={item.id} 
                         name="second-classification" 
-                        defaultChecked={ item.id === secondC } 
+                        defaultChecked={ item.id === secondCId } 
                         onChange={ onChange } 
                       />
                     </label>
                   })
                 }
+                { !classify.length && '暂无分类' }
               </div>
               <button className='editor-btn' onClick={ submit }>发布</button>
               <button className='editor-btn'>保存到草稿</button>

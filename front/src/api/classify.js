@@ -5,7 +5,6 @@
 const { default: Request } = require("../utils/request");
 
 class Api extends Request {
-
   getClassify (url, params) {
     return this.request({
       ...params,

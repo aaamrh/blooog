@@ -1,11 +1,11 @@
-const CLASSIFY_GET = Symbol()
+const CLASSIFY_GET ='CLASSIFY_GET'
 
 function classify (store={
-  classify: [{name: 1}]
+  data: []
 }, action) {
-  switch (action) {
+  switch (action.type) {
     case CLASSIFY_GET:
-      break
+      return { data: action.data }
     default:
       return store
   }
