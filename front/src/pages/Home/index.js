@@ -101,7 +101,6 @@ function Home (props) {
 			<div className="beta">
 				
 				<div className="m-cube">
-				内容构思中
 					<div className="cube">
 						<div className="front surface"> 博学 </div>
 						<div className="surface left"> 笃行 </div>
@@ -112,17 +111,18 @@ function Home (props) {
 					</div>
 				</div>
 
-				<div className='bear'>
-					<div className="content"></div>
-				</div>
 
 				<div className="m-book">
 					<div className="page page-1">
 						<h1 className="title">《令人哇塞的网站》</h1>
+						<div className='bear'>
+							<div className="content"></div>
+						</div>
 					</div>
 					<div className="page page-2">
 						<ul className='list'>
 							<li><a href="https://www.ruanyifeng.com/blog/archives.html" target={'_blank'}>阮一峰</a></li>
+							<li><a href="https://www.zhangxinxu.com/" target={'_blank'}>张鑫旭</a></li>
 						</ul>
 					</div>
 				</div>

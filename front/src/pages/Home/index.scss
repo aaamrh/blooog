@@ -77,19 +77,6 @@
           }
         }
       }
-      .bear{
-        width: 125px;
-        height: 63px;
-        margin: 0 auto;
-        overflow: hidden;
-        .content{
-          background: url('../../../public/images/bear.jpg');
-          width: 1000px;
-          height: 100%;
-          animation: $ani-bear-run .6s steps(8, end) infinite;
-          // filter: blur(1px);
-        }
-      }
       .m-book{
         position: relative;
         transform-style: preserve-3d;
@@ -106,22 +93,39 @@
           width: 148px;
           transition: .25s ease-in-out;
           transform-origin: left center;
-          transform: rotateX(30deg);
-          background: wheat;
+          transform: rotateX(20deg);
           box-shadow: 1px 1px 5px #ccc;
+          background: wheat;
           &.page-1{
             z-index: 1;
             .title{
               text-align: center;
               font-size: 13px;
               font-weight: 800;
+              margin-bottom: 40%;
+            }
+            .bear{
+              width: 125px;
+              height: 65px;
+              margin: 0 auto;
+              overflow: hidden;
+              .content{
+                background: url('../../../public/images/bear.jpg');
+                width: 1000px;
+                height: 100%;
+                animation: $ani-bear-run .6s steps(8, end) infinite;
+                // filter: blur(1px);
+              }
             }
           }
           &.page-2{
             z-index: 0;
             border-left: 1px solid #ccc;
             .list{
-              font-size: 12px;
+              font-size: $font-size-sm;
+              a{
+                line-height: $line-height-base;
+              }
               a:hover{
                 text-decoration: underline;
               }
@@ -130,7 +134,7 @@
         }
         &:hover{
           .page-1{
-            transform: rotateX(30deg) rotateY(-120deg);
+            transform: rotateX(20deg) rotateY(-120deg);
           }
         }
       }
