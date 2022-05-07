@@ -1,9 +1,9 @@
 @keyframes rotate3 {
   from{
-    transform: rotateX(0deg) rotateY(0deg);
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
   }
   to{
-    transform: rotateX(360deg) rotateY(360deg);
+    transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
   }
 }
 
@@ -15,6 +15,7 @@
   .content{
     .beta{
       .m-cube{
+        cursor: pointer;
         .cube{
           width:150px;
           height:150px;
@@ -34,7 +35,7 @@
             color: #fff;
             text-align: center;
             line-height: 150px;
-            transition: .25s linear;
+            transition: .35s linear;
           }
           .front{
             transform: translateZ(75px);
@@ -73,6 +74,63 @@
             .bottom{
               transform: rotateX(-90deg) translateZ(100px);
             }
+          }
+        }
+      }
+      .bear{
+        width: 125px;
+        height: 63px;
+        margin: 0 auto;
+        overflow: hidden;
+        .content{
+          background: url('../../../public/images/bear.jpg');
+          width: 1000px;
+          height: 100%;
+          animation: $ani-bear-run .6s steps(8, end) infinite;
+          // filter: blur(1px);
+        }
+      }
+      .m-book{
+        position: relative;
+        transform-style: preserve-3d;
+        perspective: 1000px;
+        margin: 0 auto;
+        width: 148px;
+        height: 210px;
+        cursor: pointer;
+        .page{
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 210px;
+          width: 148px;
+          transition: .25s ease-in-out;
+          transform-origin: left center;
+          transform: rotateX(30deg);
+          background: wheat;
+          box-shadow: 1px 1px 5px #ccc;
+          &.page-1{
+            z-index: 1;
+            .title{
+              text-align: center;
+              font-size: 13px;
+              font-weight: 800;
+            }
+          }
+          &.page-2{
+            z-index: 0;
+            border-left: 1px solid #ccc;
+            .list{
+              font-size: 12px;
+              a:hover{
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+        &:hover{
+          .page-1{
+            transform: rotateX(30deg) rotateY(-120deg);
           }
         }
       }

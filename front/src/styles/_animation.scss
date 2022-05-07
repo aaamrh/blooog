@@ -1,4 +1,5 @@
-$ani-bubble : bubble;
+$ani-bubble: bubble;
+$ani-bear-run: bear-run;
 
 @keyframes bubble {
 	0%{
@@ -19,4 +20,10 @@ $ani-bubble : bubble;
 	100% {
 		transform: scale(1, 1);
 	}
+}
+
+@keyframes bear-run {
+	100%{
+    transform: translateX(-100%);
+  }
 }

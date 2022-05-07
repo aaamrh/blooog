@@ -111,6 +111,21 @@ function Home (props) {
 						<div className="surface back"> 慎独 </div>
 					</div>
 				</div>
+
+				<div className='bear'>
+					<div className="content"></div>
+				</div>
+
+				<div className="m-book">
+					<div className="page page-1">
+						<h1 className="title">《令人哇塞的网站》</h1>
+					</div>
+					<div className="page page-2">
+						<ul className='list'>
+							<li><a href="https://www.ruanyifeng.com/blog/archives.html" target={'_blank'}>阮一峰</a></li>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
