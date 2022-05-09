@@ -12,12 +12,12 @@ router.get('/:articleId', async (ctx, next) => {
 
 // 发布文章
 router.post('/', async (ctx, next) => {
-  console.log(ctx.request.body, ctx.request.header)
+  const { title, content, firstCId, secondCId } = ctx.request.body
 
   ctx.body = await publishArticle(ctx, {
-    title: 'this is title',
-    content: '123123',
-    classifyId: 1,
+    title,
+    content,
+    classifyId: secondCId ?? firstCId
   })
 })
 

@@ -7,6 +7,7 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import '@wangeditor/editor/dist/css/style.css';
 import request from '../../utils/request';
 import { useGetClassify } from '../../store/action';
+import ArticleApi from '../../api/article';
 
 function notEmptyArr (arr) {
   return arr.length > 0
@@ -23,7 +24,7 @@ function IEditor(props) {
   const [secondCId, setSecondCId] = useState(-1)
   const [form, setForm] = useState({
     title: '',
-    content: ''
+    content: '',
   })
   // state end
   
@@ -54,7 +55,6 @@ function IEditor(props) {
     setFirstCId(_firstCId)
     setSecondCId(_secondCId)
   }
-  console.log(classify )
 
   // 及时销毁 editor ，重要！
   useEffect(() => {
@@ -66,7 +66,7 @@ function IEditor(props) {
   }, [editor])
 
   useEffect(()=>{
-    console.log(form)
+    // console.log(form)
   }, [form])
 
 
@@ -85,10 +85,10 @@ function IEditor(props) {
   
   const onChange = (e) => {
     const target = e.target
-
+    console.log(target.name, target.value, classify, 111111111111)
     if (target.name === 'first-classification') { 
       setFirstCId( +target.value ); 
-      setSecondCId( classify.find(o => o.parentId === +target.value).id )
+      setSecondCId( classify.find(o => +o.parentId === +target.value).id )
       return 
     }
 
@@ -100,9 +100,20 @@ function IEditor(props) {
     })
   }
 
-  const submit = () => {
-    console.log('发布文章：',  htmlContent, editor.getHtml())
-    
+  const submit = async () => {
+    // console.log('发布文章：',  htmlContent, editor, editor.getHtml())
+    console.log(form)
+    const result = await ArticleApi.saveArticle({
+      data: {
+        ...form,
+        firstCId,
+        secondCId
+      }
+    })
+    if (result.data.code === 0) {
+      return alert('OK')
+    }
+    alert(result.data.message)
   }
 
   return (

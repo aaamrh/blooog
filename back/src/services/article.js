@@ -1,6 +1,7 @@
 const { Article, Classify } = require('../db/model')
 
 async function createArticle ({ title, content, classifyId, userId }) {
+  console.log(title, content)
   const result = await Article.create({
     userId,
     title,

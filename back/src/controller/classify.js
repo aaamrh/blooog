@@ -1,5 +1,5 @@
 const { Classify } = require("../db/model")
-const { selectClassifies } = require("../services/classify")
+const { selectClassifies, selectClassify } = require("../services/classify")
 const { getClassifyListFailInfo } = require("../utils/errorInfo")
 const { SuccessModel, ErrorModel } = require("../utils/resModel")
 
@@ -18,6 +18,20 @@ async function getClassifyList () {
   }
 }
 
+/**
+ * 获取一个分类
+ * @returns 
+ */
+async function getClassify (id, parentId) {
+  try {
+    const result = await selectClassify(id, parentId)
+    return new SuccessModel(result)
+  } catch (e) {
+    return new ErrorModel(getClassifyListFailInfo)
+  }
+}
+
 module.exports = {
-  getClassifyList
+  getClassifyList,
+  getClassify
 }

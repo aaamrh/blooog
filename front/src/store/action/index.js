@@ -5,7 +5,7 @@ import { CLASSIFY_GET } from "../reducer/classify"
 function useGetClassify () {
   const dispatch = useDispatch()
   return () => {
-    ClassifyApi.getClassify(`/classify`).then(res => {
+    ClassifyApi.getClassify().then(res => {
       console.log('获取分类', res)
       dispatch({ type: CLASSIFY_GET, data: res.data.data })
     })

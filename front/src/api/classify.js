@@ -2,21 +2,21 @@
  * 封装分类接口
 */
 
-const { default: Request } = require("../utils/request");
+const { default: Request } = require("../utils/request")
 
 class Api extends Request {
-  getClassify (url, params) {
+  getClassify (params) {
     return this.request({
       ...params,
-      url,
+      url: '/classify',
       method: 'get'
     })
   }
 
-  addClassify (url, params) {
+  addClassify (params) {
     return this.request({
       ...params,
-      url,
+      url: '',
       method: 'post'
     })
   }
