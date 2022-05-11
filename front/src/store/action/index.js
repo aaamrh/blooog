@@ -6,7 +6,6 @@ function useGetClassify () {
   const dispatch = useDispatch()
   return () => {
     ClassifyApi.getClassify().then(res => {
-      console.log('获取分类', res)
       dispatch({ type: CLASSIFY_GET, data: res.data.data })
     })
   }

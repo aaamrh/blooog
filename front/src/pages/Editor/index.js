@@ -39,13 +39,7 @@ function IEditor(props) {
     placeholder: '请输入内容...',
     onCreated(editor) { setEditor(editor) }, // 记录下 editor 实例，重要！
     onChange(editor){
-      // console.log('content', editor.children, editor.getHtml())
-      onChange({
-        target: {
-          name: 'content',
-          value: editor.getHtml()
-        }
-      })
+      console.log(editor.getHtml())
     }
   }
 
@@ -66,7 +60,7 @@ function IEditor(props) {
   }, [editor])
 
   useEffect(()=>{
-    // console.log(form)
+    console.log(form)
   }, [form])
 
 
@@ -85,7 +79,6 @@ function IEditor(props) {
   
   const onChange = (e) => {
     const target = e.target
-    console.log(target.name, target.value, classify, 111111111111)
     if (target.name === 'first-classification') { 
       setFirstCId( +target.value ); 
       setSecondCId( classify.find(o => +o.parentId === +target.value).id )
@@ -101,13 +94,13 @@ function IEditor(props) {
   }
 
   const submit = async () => {
-    // console.log('发布文章：',  htmlContent, editor, editor.getHtml())
-    console.log(form)
     const result = await ArticleApi.saveArticle({
       data: {
         ...form,
         firstCId,
-        secondCId
+        secondCId,
+        text: editor.getText(),
+        content: editor.getHtml(),
       }
     })
     if (result.data.code === 0) {

@@ -1,16 +1,18 @@
 import { useMemo, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 import ArticleCard from '../../components/ArticleCard';
 import RhNav from '../../components/RhNav';
 import RhProgress from '../../components/RhProgress';
-import { navs, subNavs } from "../../conf";
+// import { navs, subNavs } from "../../conf";
 import Home from '../../pages/Home';
-
-
+import { getNav } from '../../utils/getNav';
 
 function HomeLayout (props) {
 	const {pathname} = useLocation();
 	const [progressWidth, setProgressWidth] = useState(0);
+	const { data: classify } = useSelector(state => state.classify)
+	const { navs = [] } = getNav(classify)
 
 	let onScroll = (e)=>{
 		const { scrollHeight, scrollTop, offsetHeight } = e.target;

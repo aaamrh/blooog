@@ -1,14 +1,14 @@
 import { lazy, Suspense, useState, useEffect, memo, useMemo } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import ArticleCard from '../../components/ArticleCard';
 import axios from 'axios';
 import RhNav from '../../components/RhNav';
-import { subNavs } from '../../conf';
-import { useGetClassifies } from '../../store/action';
 
 import  '../../mock/test.mock';
 import useLoadmore from '../../hooks/useScroll';
+import { getNav } from '../../utils/getNav';
+import ArticleApi from '../../api/article';
 
 let canGetMoreArticles = true; // 是否可以获取更多文章
 
@@ -25,9 +25,11 @@ function onScroll(cb) {
 }
 
 function Home (props) {
-	const {pathname} = useLocation();
-	const [articles, setArticles] = useState([]);
-	const { classify } = useSelector(state => state.classify)
+	const {pathname} = useLocation()
+	const history = useHistory()
+	const params = useParams()
+	const [articles, setArticles] = useState([])
+	const { data: classify } = useSelector(state => state.classify)
 
 	const getMoreArticles1 = function() {
 		return axios.get('/api/articles/more')
@@ -41,33 +43,39 @@ function Home (props) {
 	const [loadMore, domRef, data] = useLoadmore(getMoreArticles1)
 
 	useEffect(() => {
-		console.log('data')
 		if (data) {
 			setArticles(state => state.concat(data.data));
 		}
 	}, [data])
 
+	let { subNavs = [] } = getNav(classify);
+	let subNav = subNavs[`${pathname.split('/')[1]}`] || [];
 
-	// useGetClassifies()
-	let subNav = subNavs[`/${pathname.split('/')[1]}`] || [];
+	// 获取二级分类的默认项
+	const getDefaultSecC = () => {
+		/** 
+		 * /fornt-end/ -> ['', 'front-end', '']
+		 * /fornt-end -> ['', 'front-end']
+		 */ 
+		const firstC = pathname.split('/')[1]
+		return subNavs[firstC].find(item => item.isActive)?.type
+	}
 
 	// 首页是 所有文章,最新的
 	// 
 	useEffect(()=>{
-		axios.get('/api/articles').then(res=>{
-			const { code, data } = res;
-			console.log(res, '前后台调试成功')
-			if(!code){ setArticles(data.data) }
-		})		
+		// 有二级分类直接请求API, 没有则获取默认二级分类然后请求
+		if (params.type) {
+			ArticleApi.getArticles({
+				params: { type: params.type }
+			}).then(res => {
+				const { code, data } = res;
+				const { count, articles } = data.data
+				if(!code){ setArticles(articles) }
+			})
+		} else {
+		}
 	}, []);
-
-	const getMoreArticles = function() {
-		axios.get('/api/articles/more').then(res=>{
-			const { code, data } = res;
-			canGetMoreArticles = true;
-			setArticles(articles.concat(data.data));
-		})
-	}	
 
 	return <div className="page-home">
 		<RhNav className='nav' navlist={subNav} pathname={pathname} />
@@ -89,11 +97,7 @@ function Home (props) {
 						articles.map((article, index) => {
 							return <ArticleCard 
 								key={index}
-								title={article.title}
-								content={article.content}
-								time={article.time}
-								read={article.read}
-								_id={article._id}
+								article={article}
 							/>
 						})  
 					}
