@@ -110,7 +110,7 @@
               margin: 0 auto;
               overflow: hidden;
               .content{
-                background: url('../../../public/images/bear.jpg');
+                background: url('/public/images/bear.jpg');
                 width: 1000px;
                 height: 100%;
                 animation: $ani-bear-run .6s steps(8, end) infinite;
