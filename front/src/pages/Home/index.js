@@ -24,6 +24,12 @@ function onScroll(cb) {
 	}
 }
 
+async function aa () {
+	console.log(1)
+}
+
+aa()
+
 function Home (props) {
 	const {pathname} = useLocation();
 	const [articles, setArticles] = useState([]);
