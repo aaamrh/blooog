@@ -1,16 +1,43 @@
-const { createArticle, selectArticle } = require("../services/article")
+const { createArticle, selectArticle, selectArticleList, selectArticleListByClassify } = require("../services/article")
 const { SuccessModel, ErrorModel } = require("../utils/resModel")
-const { publishArticleFailInfo, getArticleFailInfo } = require("../utils/errorInfo")
+const { publishArticleFailInfo, getArticleFailInfo, getArticleListFailInfo } = require("../utils/errorInfo")
+
+// 获取文章列表
+async function getArticleList (classifyId) {
+  try {
+    const articles = await selectArticleList(classifyId)
+    return new SuccessModel(articles)
+  } catch (e) {
+    return new ErrorModel(getArticleListFailInfo)
+  }
+}
+
+/**
+ * 通过分类连表查询
+ * @param {number} params.id
+ * @param {string} params.name
+ * @param {string} params.type
+ * @param {number} params.parentId
+ */
+async function getArticleListByClassify (params) {
+  try {
+    const articles = await selectArticleListByClassify(params)
+    console.log(articles)
+    return new SuccessModel(articles)
+  } catch (e) {
+    return new ErrorModel(getArticleListFailInfo)
+  }
+}
 
 /**
  * 发布文章
  * @param {*} ctx 
  * @param {标题, 内容, 分类id} param1 
  */
-async function publishArticle (ctx, { title, content, classifyId }) {
+async function publishArticle (ctx, { title, content, text, classifyId }) {
   // TODO const { id: userId = 1 } = ctx.session
   try {
-    const article = await createArticle({ userId: 1, title, content, classifyId })
+    const article = await createArticle({ userId: 1, title, content, text, classifyId })
     return new SuccessModel(article)
   } catch (e) {
     console.log('publishArticle', e)
@@ -22,7 +49,7 @@ async function publishArticle (ctx, { title, content, classifyId }) {
  * 
  * @param {文章id} articleId 
  * @returns 
- */
+ */ 
 async function getArticleInfo (articleId) {
   try {
     const article = await selectArticle(articleId)
@@ -36,5 +63,7 @@ async function getArticleInfo (articleId) {
 
 module.exports = {
   publishArticle,
-  getArticleInfo
+  getArticleInfo,
+  getArticleList,
+  getArticleListByClassify
 }

@@ -15,7 +15,12 @@ const Article = seq.define('article', {
   content: {
     type: TEXT,
     allowNull: false,
-    comment: '文章内容'
+    comment: '文章内容-html格式'
+  },
+  text: {
+    type: TEXT,
+    allowNull: false,
+    comment: '文章内容的纯文本'
   },
   read: {
     type: INTEGER,
