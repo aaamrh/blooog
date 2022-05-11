@@ -1,8 +1,8 @@
 {
   "plugins": [
     ["prismjs", {
-      "languages": ["javascript", "css", "html"],
-      "plugins": ["line-numbers", "show-language"],
+      "languages": ["javascript", "css", "html", "git", "nginx", "mongodb", "md", "less", "sass", "powershell", "c", "cpp", "py", "jsx", "tsx", "sql", "ts", "docker"],
+      "plugins": ["line-numbers", "show-language", "copy-to-clipboard"],
       "theme": "okaidia",
       "css": true
     }]
