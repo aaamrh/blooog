@@ -83,9 +83,10 @@ const config = {
       }
     ]
   },
-  // externals: {
-  //   'react': 'React'
-  // },
+  externals: {
+    react: 'React',
+    axios: 'axios'
+  },
   plugins: [
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({
