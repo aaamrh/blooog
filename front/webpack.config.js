@@ -84,7 +84,7 @@ const config = {
     ]
   },
   externals: {
-    react: 'React',
+    // react: 'React',
     axios: 'axios'
   },
   plugins: [
