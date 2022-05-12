@@ -48,15 +48,10 @@ function Home (props) {
 
 	const [loadMore, domRef, data] = useLoadmore(getMoreArticles1)
 
-	useEffect(() => {
-		if (data) {
-			setArticles(state => state.concat(data.data));
-		}
-	}, [data])
-
 	let { subNavs = [] } = getNav(classify);
+	console.log(subNavs, pathname, '11111')
 	let subNav = subNavs[`${pathname.split('/')[1]}`] || [];
-
+	
 	// 获取二级分类的默认项
 	const getDefaultSecC = () => {
 		/** 
@@ -83,7 +78,18 @@ function Home (props) {
 		}
 	}, []);
 
+	useEffect(() => {
+		if (data) {
+			setArticles(state => state.concat(data.data));
+		}
+	}, [data])
+
+	useEffect(() => {
+		
+	})
+
 	return <div className="page-home">
+		{ JSON.stringify(subNav)}
 		<RhNav className='nav' navlist={subNav} pathname={pathname} />
 
 		<div className="content"

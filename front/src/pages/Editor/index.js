@@ -55,6 +55,8 @@ function IEditor(props) {
   }, [editor])
 
   useEffect(()=>{
+    // 只在页面打开后, 获取到文章信息后同步一次content
+    // 因为Editor会对content进行处理, 所以htmlContent获取到的不是 '', 而是 <p><br></p>
     if (  htmlContent === '<p><br></p>' && form?.content ) {
       setHtmlContent(form?.content)
     }

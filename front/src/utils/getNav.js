@@ -70,6 +70,7 @@ function getNav (data) {
       })
     }
   })
+  console.log(subNavs)
 
   return {
     navs,
