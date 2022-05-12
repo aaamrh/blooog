@@ -7,13 +7,16 @@ router.prefix('/api/article')
 
 // 获取文章列表
 router.get('/', async (ctx, next) => {
-  let { classifyId, type } = ctx.query
-  console.log(type, 'type', ctx.query)
+  let { classifyId, type, id } = ctx.query
+  console.log('type', ctx.query, id)
   // controller
-  ctx.body = await getArticleListByClassify({
-    type
-  })
+  let params = {};
 
+  type && (params.type = type)       
+  id && (params.id = id)
+  console.log('params', params)
+
+  ctx.body = await getArticleList(params)
 })
 
 // 获取文章详情

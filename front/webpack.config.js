@@ -15,6 +15,7 @@ const config = {
     type: 'filesystem',
     allowCollectingMemory: true
   },
+  devtool: 'eval-cheap-module-source-map',
   devServer: {
     static: {
       directory: resolve(__dirname, 'dist')

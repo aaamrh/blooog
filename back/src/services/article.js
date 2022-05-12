@@ -35,12 +35,16 @@ async function selectArticle (id) {
  * 通过分类id获取文章列表,  如果不传id则直接获取文章列表
  * @param {*} classifyId 
  */
-async function selectArticleList (classifyId) {
+async function selectArticleList ({ type, id, userId, title, classifyId }) {
   let _where = {}
+  if (id) { _where.id = id }
+  if (type) { _where.type = type }
+  if (userId) { _where.userId = userId }
+  if (title) { _where.title = title }
   if (classifyId) { _where.classifyId = classifyId }
-
+  console.log(_where)
   const result = await Article.findAndCountAll({
-    where: { ..._where },
+    where: _where,
   })
 
   let articles = result.rows.map(row => row.dataValues)
@@ -54,11 +58,12 @@ async function selectArticleList (classifyId) {
  * 获取文章列表: 传入 通过二级分类id 或者 type
  */
 async function selectArticleListByClassify (params) {
+  // TODO
   const result = await Article.findAndCountAll({
     include: [
       {
         model: Classify,
-        where: { ...params }
+        // where: { type: 'js' }
       }
     ]
   })

@@ -8,6 +8,7 @@ import '@wangeditor/editor/dist/css/style.css';
 import request from '../../utils/request';
 import { useGetClassify } from '../../store/action';
 import ArticleApi from '../../api/article';
+import useGetArticle from '../../store/action/article';
 
 function notEmptyArr (arr) {
   return arr.length > 0
@@ -16,31 +17,25 @@ function notEmptyArr (arr) {
 function IEditor(props) {
   // 富文本状态
   const [editor, setEditor] = useState(null) // 存储 editor 实例
-  const [htmlContent, setHtmlContent] = useState('')
+  const [htmlContent, setHtmlContent] = useState(null)
   const [isEditorShow, setIsEditorShow] = useState(false)
+
   // 其他状态
   const { data: classify } = useSelector(state => state.classify)
-  const [firstCId, setFirstCId] = useState(-1)
-  const [secondCId, setSecondCId] = useState(-1)
-  const [form, setForm] = useState({
-    title: '',
-    content: '',
-  })
+  const [article, setArticle] = useGetArticle(props)
+  const [firstCId, setFirstCId] = useState(-1) // 一级分类id
+  const [secondCId, setSecondCId] = useState(-1) // 二级分类id
+  // const [form, setForm] = useState({
+  //   title: article?.title,
+  //   content: '',
+  // })
+  const [form, setForm] = useGetArticle(props)
   // state end
   
   const getClassify = useGetClassify()
-
-  const defaultContent = [
-    { type: "paragraph", children: [{ text: `123` }], }
-  ]
-  
-  const toolbarConfig = { }
+  const toolbarConfig = {}
   const editorConfig = {
     placeholder: '请输入内容...',
-    onCreated(editor) { setEditor(editor) }, // 记录下 editor 实例，重要！
-    onChange(editor){
-      console.log(editor.getHtml())
-    }
   }
 
   if (firstCId < 0 && notEmptyArr(classify)) {
@@ -60,12 +55,15 @@ function IEditor(props) {
   }, [editor])
 
   useEffect(()=>{
-    console.log(form)
+    if (  htmlContent === '<p><br></p>' && form?.content ) {
+      setHtmlContent(form?.content)
+    }
   }, [form])
 
 
   useEffect(()=>{
     // TODO: 如果有文章id 则默认内容是文章数据
+    console.log(props, 'editor props')
     if (props.match.params?.article_id) {
       // request.get('/api/article/:id').then(res=>{
       //   const {data} = res.data;
@@ -73,9 +71,9 @@ function IEditor(props) {
       // });
     }
     setIsEditorShow(true)
-
     getClassify()
   }, []);
+
   
   const onChange = (e) => {
     const target = e.target
@@ -106,7 +104,6 @@ function IEditor(props) {
     if (result.data.code === 0) {
       return alert('OK')
     }
-    alert(result.data.message)
   }
 
   return (
@@ -165,13 +162,14 @@ function IEditor(props) {
 
             <div className="editor-container">
               <div className="editor-title">
-                <input type={'text'} name="title"  placeholder="请输入标题" onChange={ onChange } />
+                <input type={'text'} name="title" value={form?.title}  placeholder="请输入标题" onChange={ onChange } />
               </div>
               <div className="editor-paper">
                 <Editor
-                  defaultConfig={editorConfig}
-                  // defaultContent={defaultContent}
-                  defaultHtml={htmlContent}
+                  defaultConfig={ editorConfig }
+                  value={ htmlContent }
+                  onCreated={setEditor}
+                  onChange={editor => setHtmlContent(editor.getHtml())}
                   mode="default"
                   className="paper"
                   style={{ 

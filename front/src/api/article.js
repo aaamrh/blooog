@@ -1,9 +1,9 @@
 const { default: Request } = require("../utils/request");
 
 class Api extends Request {
-  saveArticle(params){
+  saveArticle(args){
     return this.request({
-      ...params,
+      ...args,
       url: '/article',
       method: 'post'
     })
@@ -11,16 +11,16 @@ class Api extends Request {
 
   /**
    * 获取文章列表
-   * @param {*} params.data
-   * @param {*} params.data.id 分类id
-   * @param {*} params.data.type 分类type
-   * @param {*} params.data.parentId 分类parentId
-   * @param {*} params.data.classifyId 文章的classifyId
+   * @param {*} args.params
+   * @param {*} args.params.id 分类id
+   * @param {*} args.params.type 分类type
+   * @param {*} args.params.parentId 分类parentId
+   * @param {*} args.params.classifyId 文章的classifyId
    * @returns 
    */
-  getArticles(params){
+  getArticles(args){
     return this.request({
-      ...params,
+      ...args,
       url: '/article',
       method: 'get'
     })

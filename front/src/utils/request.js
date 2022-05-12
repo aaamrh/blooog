@@ -13,12 +13,12 @@ const _request = axios.create({
 
 _request.interceptors.response.use(
   (response) => {
-    console.log('response', response)
+    // console.log('response', response)
 
     return response
   },
   (err) => {
-    console.log(err, err.response)
+    // console.log(err, err.response)
 
     return Promise.reject('sth error')
   }
