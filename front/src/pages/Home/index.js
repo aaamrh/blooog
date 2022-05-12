@@ -85,8 +85,25 @@ function Home (props) {
 	}, [data])
 
 	useEffect(() => {
+		let type ='';
+		if (pathname === '/') {
+			type = 'all'
+		} else if ( params?.type ) {
+			type = params.type
+		} else {
+			type = subNav[0]?.type
+		}
+
+		if (!type) { return }
 		
-	})
+		ArticleApi.getArticles({
+			params: { type }
+		}).then(res => {
+			const { code, data } = res;
+			const { count, articles } = data.data
+			if(!code){ setArticles(articles) }
+		})
+	}, [pathname])
 
 	return <div className="page-home">
 		{ JSON.stringify(subNav)}
