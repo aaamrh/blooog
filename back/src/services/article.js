@@ -59,11 +59,12 @@ async function selectArticleList ({ type, id, userId, title, classifyId }) {
  */
 async function selectArticleListByClassify (params) {
   // TODO
+  console.log(params)
   const result = await Article.findAndCountAll({
     include: [
       {
         model: Classify,
-        // where: { type: 'js' }
+        where: params
       }
     ]
   })

@@ -1,27 +1,24 @@
 const router = require('koa-router')()
 
 const { publishArticle, getArticleInfo, getArticleList, getArticleListByClassify } = require('../controller/article')
-const { Article, Classify } = require('../db/model')
 
 router.prefix('/api/article')
 
 // 获取文章列表
 router.get('/', async (ctx, next) => {
-  let { classifyId, type='', id=-1, name='' } = ctx.query
+  let { classifyId, type='', id, name='' } = ctx.query
   console.log('type', ctx.query, id)
   // controller
   let params = {};
 
   type && (params.type = type)       
   id && (params.id = id)
-  console.log('params', params)
 
   if (type || name) {
     ctx.body = await getArticleListByClassify(params)
   } else {
     ctx.body = await getArticleList(params)
   }
-
 })
 
 // 获取文章详情

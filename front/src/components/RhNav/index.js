@@ -17,9 +17,7 @@ function RhNav(props){
 										return nav.isActive(pathname)
 									}: null
 								}
-								onClick={ () => {
-									console.log(1)
-								}}
+								onClick={ () => {}}
 								key={index}
 							>{nav.title}</NavLink>
 						</li>

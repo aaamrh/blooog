@@ -23,7 +23,6 @@ async function getArticleList (args) {
 async function getArticleListByClassify (params) {
   try {
     const articles = await selectArticleListByClassify(params)
-    console.log(articles)
     return new SuccessModel(articles)
   } catch (e) {
     return new ErrorModel(getArticleListFailInfo)

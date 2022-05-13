@@ -27,7 +27,7 @@ function MyRouter () {
 				}/>
 				<Route path={['/editor', '/editor/:article_id']} exact component={Editor} />
 				<Route path='/' render={()=>{
-					return (
+					return ( 
 						<HomeLayout>
 							{/* FIXME 更好的实现方式 */}
 							<Route exact 
@@ -37,6 +37,10 @@ function MyRouter () {
 									'/front-end/:type',
 									'/back-end',
 									'/back-end/:type',
+									'/diary',
+									'/diary/:type',
+									'/database',
+									'/database/:type',
 								]} 
 								component={Home}  
 							/>

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useEffect, memo, useMemo } from 'react';
+import { lazy, Suspense, useState, useEffect, memo, useMemo, useRef } from 'react';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import ArticleCard from '../../components/ArticleCard';
@@ -24,18 +24,12 @@ function onScroll(cb) {
 	}
 }
 
-async function aa () {
-	console.log(1)
-}
-
-aa()
-
 function Home (props) {
-	const {pathname} = useLocation()
-	const history = useHistory()
-	const params = useParams()
 	const [articles, setArticles] = useState([])
 	const { data: classify } = useSelector(state => state.classify)
+	const { pathname } = useLocation()
+	const history = useHistory()
+	const params = useParams()
 
 	const getMoreArticles1 = function() {
 		return axios.get('/api/articles/more')
@@ -45,13 +39,13 @@ function Home (props) {
 		// 	// setArticles(state => state.concat(data.data));
 		// })
 	}	
+	
 
 	const [loadMore, domRef, data] = useLoadmore(getMoreArticles1)
 
 	let { subNavs = [] } = getNav(classify);
-	console.log(subNavs, pathname, '11111')
 	let subNav = subNavs[`${pathname.split('/')[1]}`] || [];
-	
+
 	// 获取二级分类的默认项
 	const getDefaultSecC = () => {
 		/** 
@@ -62,22 +56,9 @@ function Home (props) {
 		return subNavs[firstC].find(item => item.isActive)?.type
 	}
 
-	// 首页是 所有文章,最新的
-	// 
-	useEffect(()=>{
-		// 有二级分类直接请求API, 没有则获取默认二级分类然后请求
-		if (params.type) {
-			ArticleApi.getArticles({
-				params: { type: params.type }
-			}).then(res => {
-				const { code, data } = res;
-				const { count, articles } = data.data
-				if(!code){ setArticles(articles) }
-			})
-		} else {
-		}
-	}, []);
+	useEffect(()=>{}, []);
 
+	// 滚动条加载data
 	useEffect(() => {
 		if (data) {
 			setArticles(state => state.concat(data.data));
@@ -85,7 +66,12 @@ function Home (props) {
 	}, [data])
 
 	useEffect(() => {
+		getArticlesWhenChangeNav()
+	}, [pathname])
+
+	const getArticlesWhenChangeNav = () => {
 		let type ='';
+
 		if (pathname === '/') {
 			type = 'all'
 		} else if ( params?.type ) {
@@ -100,39 +86,34 @@ function Home (props) {
 			params: { type }
 		}).then(res => {
 			const { code, data } = res;
-			const { count, articles } = data.data
+			const { articles } = data.data
 			if(!code){ setArticles(articles) }
 		})
-	}, [pathname])
+	}
+
 
 	return <div className="page-home">
-		{ JSON.stringify(subNav)}
 		<RhNav className='nav' navlist={subNav} pathname={pathname} />
 
 		<div className="content"
 			// onScroll={onScroll(getMoreArticles)}
 			ref={ domRef }
 		>
+			{/* 中间主要内容部分 */}
 			<div className="alpha">
-					{/* <ArticleCard 
-						title="JavaScript 入门"
-						content="The href attribute is required for an anchor to be keyboard accessible. Provide a valid, navigable address as the href value. If you cannot provide an href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
-						Line 28:32:  The href attribute is required for an anchor to be keyboard accessible. Provide a valid, navigable address as the href value. If you cannot provid"
-						time="2022-02-11 12:32"
-						read="115"
-					/> */}
-					{
-						articles.length > 0 && 
-						articles.map((article, index) => {
-							return <ArticleCard 
-								key={index}
-								article={article}
-							/>
-						})  
-					}
+				{
+					articles.length > 0 && 
+					articles.map((article, index) => {
+						return <ArticleCard 
+							key={index}
+							article={article}
+						/>
+					})  
+				}
 			</div>
+
+			{/* 右侧栏 */}
 			<div className="beta">
-				
 				<div className="m-cube">
 					<div className="cube">
 						<div className="front surface"> 博学 </div>
