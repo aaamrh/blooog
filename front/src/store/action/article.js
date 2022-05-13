@@ -41,7 +41,7 @@ function useGetArticles () {
       if (code) { return 0 }
       
       dispatch({ type: action,  count: data.count, data: data.articles })
-      return data.count
+      return data
     })
   }
 }

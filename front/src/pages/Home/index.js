@@ -85,7 +85,7 @@ function Home (props) {
 						/>
 					})  
 				}
-				{ isLoadingMore && '加载中' }
+				{ isLoadingMore && '加载中' } {msg}
 			</div>
 
 			{/* 右侧栏 */}
