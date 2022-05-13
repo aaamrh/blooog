@@ -38,12 +38,14 @@ async function selectArticle (id) {
 async function selectArticleList ({ type, id, userId, title, classifyId }) {
   let _where = {}
   if (id) { _where.id = id }
-  if (type) { _where.type = type }
+  // if (type) { _where.type = type }
   if (userId) { _where.userId = userId }
   if (title) { _where.title = title }
   if (classifyId) { _where.classifyId = classifyId }
-  console.log(_where)
+
   const result = await Article.findAndCountAll({
+    limit: 2,
+    offset: 0,
     where: _where,
   })
 
@@ -57,20 +59,21 @@ async function selectArticleList ({ type, id, userId, title, classifyId }) {
 /**
  * 获取文章列表: 传入 通过二级分类id 或者 type
  */
-async function selectArticleListByClassify (params) {
-  // TODO
-  console.log(params)
+async function selectArticleListByClassify (args, { cursor = 0, limit = 10, keywords='' }) {
   const result = await Article.findAndCountAll({
+    limit: 3,
+    offset: cursor * 3,
     include: [
       {
         model: Classify,
-        where: params
+        where: args
       }
     ]
   })
   let articles = result.rows.map(row => row.dataValues)
   return {
-    count: result.count,
+    count: articles.length,
+    total: result.count,
     articles
   }
 }

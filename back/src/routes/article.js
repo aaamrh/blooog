@@ -6,18 +6,19 @@ router.prefix('/api/article')
 
 // 获取文章列表
 router.get('/', async (ctx, next) => {
-  let { classifyId, type='', id, name='' } = ctx.query
-  console.log('type', ctx.query, id)
-  // controller
   let params = {};
-
+  let {
+    classifyId, type='', id, name='',
+    page = "{ cursor: 0, limit: 10, keywords: '' }" // get方法传递的对象是字符串
+  } = ctx.query
+  
   type && (params.type = type)       
   id && (params.id = id)
-
-  if (type || name) {
-    ctx.body = await getArticleListByClassify(params)
+  console.log(type)
+  if ((type && type !== 'all') || name) {
+    ctx.body = await getArticleListByClassify(params, JSON.parse(page))
   } else {
-    ctx.body = await getArticleList(params)
+    ctx.body = await getArticleList(params, JSON.parse(page))
   }
 })
 

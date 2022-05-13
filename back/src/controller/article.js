@@ -3,10 +3,10 @@ const { SuccessModel, ErrorModel } = require("../utils/resModel")
 const { publishArticleFailInfo, getArticleFailInfo, getArticleListFailInfo } = require("../utils/errorInfo")
 
 // 获取文章列表
-async function getArticleList (args) {
+async function getArticleList (args, page) {
   console.log('args', args)
   try {
-    const articles = await selectArticleList(args)
+    const articles = await selectArticleList(args, page)
     return new SuccessModel(articles)
   } catch (e) {
     return new ErrorModel(getArticleListFailInfo)
@@ -20,9 +20,9 @@ async function getArticleList (args) {
  * @param {string} params.type
  * @param {number} params.parentId
  */
-async function getArticleListByClassify (params) {
+async function getArticleListByClassify (args, page) {
   try {
-    const articles = await selectArticleListByClassify(params)
+    const articles = await selectArticleListByClassify(args, page)
     return new SuccessModel(articles)
   } catch (e) {
     return new ErrorModel(getArticleListFailInfo)
