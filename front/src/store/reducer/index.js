@@ -1,7 +1,9 @@
 import classify from "./classify"
+import articles from "./articles"
 
 const reducer = {
-  classify
+  classify,
+  articles
 }
 
 export default reducer

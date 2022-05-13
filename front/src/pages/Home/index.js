@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState, useEffect, memo, useMemo, useRef } from 'react';
 import { useLocation, useParams, useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ArticleCard from '../../components/ArticleCard';
 import axios from 'axios';
 import RhNav from '../../components/RhNav';
@@ -9,6 +9,10 @@ import  '../../mock/test.mock';
 import useLoadmore from '../../hooks/useScroll';
 import { getNav } from '../../utils/getNav';
 import ArticleApi from '../../api/article';
+import { useGetArticles } from '../../store/action/article';
+import { GET_ARTICLES, GET_MORE_ARTICLES } from '../../store/reducer/articles';
+import { useGetClassify } from '../../store/action';
+import { SET_CURRENT_CLASSIFY } from '../../store/reducer/classify';
 
 let canGetMoreArticles = true; // 是否可以获取更多文章
 
@@ -25,51 +29,18 @@ function onScroll(cb) {
 }
 
 function Home (props) {
-	const [articles, setArticles] = useState([])
-	const { data: classify } = useSelector(state => state.classify)
+	const { data: classifies, curClassify } = useSelector(state => state.classify)
+	const { data: articles, count } = useSelector(state => state.articles)
 	const { pathname } = useLocation()
-	const history = useHistory()
 	const params = useParams()
+	const getArticles = useGetArticles()
+	const dispatch = useDispatch()
+	const [domRef, isLoadingMore, msg] = useLoadmore()
 
-	const getMoreArticles1 = function() {
-		return axios.get('/api/articles/more')
-		// .then(res=>{
-		// 	const { code, data } = res;
-		// 	console.log(data)
-		// 	// setArticles(state => state.concat(data.data));
-		// })
-	}	
-	
-
-	const [loadMore, domRef, data] = useLoadmore(getMoreArticles1)
-
-	let { subNavs = [] } = getNav(classify);
+	let { subNavs = [] } = getNav(classifies);
 	let subNav = subNavs[`${pathname.split('/')[1]}`] || [];
 
-	// 获取二级分类的默认项
-	const getDefaultSecC = () => {
-		/** 
-		 * /fornt-end/ -> ['', 'front-end', '']
-		 * /fornt-end -> ['', 'front-end']
-		 */ 
-		const firstC = pathname.split('/')[1]
-		return subNavs[firstC].find(item => item.isActive)?.type
-	}
-
-	useEffect(()=>{}, []);
-
-	// 滚动条加载data
-	useEffect(() => {
-		if (data) {
-			setArticles(state => state.concat(data.data));
-		}
-	}, [data])
-
-	useEffect(() => {
-		getArticlesWhenChangeNav()
-	}, [pathname])
-
-	const getArticlesWhenChangeNav = () => {
+	const getArticleType = () => {
 		let type ='';
 
 		if (pathname === '/') {
@@ -80,17 +51,21 @@ function Home (props) {
 			type = subNav[0]?.type
 		}
 
-		if (!type) { return }
-		
-		ArticleApi.getArticles({
-			params: { type }
-		}).then(res => {
-			const { code, data } = res;
-			const { articles } = data.data
-			if(!code){ setArticles(articles) }
-		})
+		dispatch({ type: SET_CURRENT_CLASSIFY, classify: type })
 	}
 
+	// FIXME: 获取到分类后才能获取初始化的数据
+	useEffect(() => {
+		if (count === -1) { getArticleType() }
+	}, [classifies])
+
+	useEffect(() => {
+		getArticleType() // 切换导航, 则获取分类
+	}, [pathname])
+
+	useEffect(() => {
+		getArticles(curClassify, 0, GET_ARTICLES)
+	}, [curClassify])
 
 	return <div className="page-home">
 		<RhNav className='nav' navlist={subNav} pathname={pathname} />
@@ -110,6 +85,7 @@ function Home (props) {
 						/>
 					})  
 				}
+				{ isLoadingMore && '加载中' }
 			</div>
 
 			{/* 右侧栏 */}

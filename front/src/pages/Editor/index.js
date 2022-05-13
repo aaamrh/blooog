@@ -8,7 +8,7 @@ import '@wangeditor/editor/dist/css/style.css';
 import request from '../../utils/request';
 import { useGetClassify } from '../../store/action';
 import ArticleApi from '../../api/article';
-import useGetArticle from '../../store/action/article';
+import { useGetArticle } from '../../store/action/article';
 
 function notEmptyArr (arr) {
   return arr.length > 0

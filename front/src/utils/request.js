@@ -8,7 +8,10 @@ class Request {
 
 const _request = axios.create({
   baseURL: '/api',
-  timeout: 5000
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json'
+  },
 })
 
 _request.interceptors.response.use(
