@@ -25,19 +25,20 @@ function useLoadmore () {
       if( can && !noMore ){
         if( scrollHeight <= offsetHeight + scrollTop + 150 ){
           can = false
-          console.log('请求中', can)
+          setMsg('请求中')
           setIsLoading(true)
-          getArticles( curClassify, cursorRef.current + 1, GET_MORE_ARTICLES ).then(({count, total}) => {
-            if (count) { cursorRef.current += 1 }
+          getArticles( curClassify, cursorRef.current + 1, GET_MORE_ARTICLES ).then(({count, totalPage}) => {
             can = true
-            if (total === articles.length) { 
+            if (totalPage === cursorRef.current + 1) { 
               noMore = true 
               return setMsg('没有更多数据了')
             }
+            
+            if (count) { cursorRef.current += 1 }
+            
             setMsg('')
             setIsLoading(false)
           })
-          
         }
       }
     }

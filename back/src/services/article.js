@@ -35,7 +35,7 @@ async function selectArticle (id) {
  * 通过分类id获取文章列表,  如果不传id则直接获取文章列表
  * @param {*} classifyId 
  */
-async function selectArticleList ({ type, id, userId, title, classifyId }) {
+async function selectArticleList ({ type, id, userId, title, classifyId }, { cursor = 0, limit = 10, keywords='' }) {
   let _where = {}
   if (id) { _where.id = id }
   // if (type) { _where.type = type }
@@ -44,14 +44,16 @@ async function selectArticleList ({ type, id, userId, title, classifyId }) {
   if (classifyId) { _where.classifyId = classifyId }
 
   const result = await Article.findAndCountAll({
-    limit: 2,
-    offset: 0,
+    limit,
+    offset: cursor * limit,
     where: _where,
   })
 
   let articles = result.rows.map(row => row.dataValues)
   return {
-    count: result.count,
+    count: articles.length,
+    total: result.count,
+    totalPage: Math.ceil( result.count / limit ),
     articles
   }
 }
@@ -61,8 +63,8 @@ async function selectArticleList ({ type, id, userId, title, classifyId }) {
  */
 async function selectArticleListByClassify (args, { cursor = 0, limit = 10, keywords='' }) {
   const result = await Article.findAndCountAll({
-    limit: 3,
-    offset: cursor * 3,
+    limit,
+    offset: cursor * limit,
     include: [
       {
         model: Classify,
@@ -74,6 +76,7 @@ async function selectArticleListByClassify (args, { cursor = 0, limit = 10, keyw
   return {
     count: articles.length,
     total: result.count,
+    totalPage: Math.ceil( result.count / 3 ),
     articles
   }
 }

@@ -70,10 +70,7 @@ function Home (props) {
 	return <div className="page-home">
 		<RhNav className='nav' navlist={subNav} pathname={pathname} />
 
-		<div className="content"
-			// onScroll={onScroll(getMoreArticles)}
-			ref={ domRef }
-		>
+		<div className="content" ref={ domRef } >
 			{/* 中间主要内容部分 */}
 			<div className="alpha">
 				{
@@ -85,7 +82,7 @@ function Home (props) {
 						/>
 					})  
 				}
-				{ isLoadingMore && '加载中' } {msg}
+				<p className='msg'>{ msg }</p>
 			</div>
 
 			{/* 右侧栏 */}

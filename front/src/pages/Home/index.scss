@@ -13,6 +13,13 @@
   }
 
   .content{
+    .alpha{
+      .msg {
+        text-align: center;
+        color: $green;
+      }
+    }
+
     .beta{
       .m-cube{
         cursor: pointer;

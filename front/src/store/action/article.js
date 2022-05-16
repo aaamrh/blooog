@@ -33,14 +33,14 @@ function useGetArticles () {
       params: { 
         type, 
         page: {
-          cursor, limit: 6, keywords: ''
+          cursor, limit: 2, keywords: ''
         }
       }
     }).then(res => {
       const { code, data } = res.data
       if (code) { return 0 }
       
-      dispatch({ type: action,  count: data.count, data: data.articles })
+      dispatch({ type: action,  ...data, data: data.articles })
       return data
     })
   }
