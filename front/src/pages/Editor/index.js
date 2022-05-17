@@ -3,6 +3,7 @@
  */
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import '@wangeditor/editor/dist/css/style.css';
 import request from '../../utils/request';
@@ -22,21 +23,17 @@ function IEditor(props) {
 
   // 其他状态
   const { data: classify } = useSelector(state => state.classify)
-  const [article, setArticle] = useGetArticle(props)
+  const [form, setForm] = useGetArticle(props)
   const [firstCId, setFirstCId] = useState(-1) // 一级分类id
   const [secondCId, setSecondCId] = useState(-1) // 二级分类id
-  // const [form, setForm] = useState({
-  //   title: article?.title,
-  //   content: '',
-  // })
-  const [form, setForm] = useGetArticle(props)
-  // state end
+  // -------- state end -----------
   
   const getClassify = useGetClassify()
   const toolbarConfig = {}
   const editorConfig = {
     placeholder: '请输入内容...',
   }
+  const articleId = form?.id
 
   if (firstCId < 0 && notEmptyArr(classify)) {
     const _firstCId = +(classify.find(o => o.parentId === 0).id)
@@ -64,14 +61,6 @@ function IEditor(props) {
 
 
   useEffect(()=>{
-    // TODO: 如果有文章id 则默认内容是文章数据
-    console.log(props, 'editor props')
-    if (props.match.params?.article_id) {
-      // request.get('/api/article/:id').then(res=>{
-      //   const {data} = res.data;
-      //   setHtmlContent(data.content)
-      // });
-    }
     setIsEditorShow(true)
     getClassify()
   }, []);
@@ -94,15 +83,27 @@ function IEditor(props) {
   }
 
   const submit = async () => {
-    const result = await ArticleApi.saveArticle({
-      data: {
-        ...form,
-        firstCId,
-        secondCId,
-        text: editor.getText(),
-        content: editor.getHtml(),
+    let data = {
+      ...form,
+      firstCId,
+      secondCId,
+      text: editor.getText(),
+      content: editor.getHtml(),
+    }
+
+    // 有 article_id 则是编辑
+    if (articleId ?? true) { // ?? 是为了确保id是 0 是为真值条件, 否则 if 0 不通过
+      const result = await ArticleApi.modifyArticles({
+        data,
+        id: articleId
+      })
+      if (result.data.code === 0) {
+        return alert('OK')
       }
-    })
+      return 
+    }
+
+    const result = await ArticleApi.publishArticle({ data })
     if (result.data.code === 0) {
       return alert('OK')
     }

@@ -10,11 +10,11 @@ function useGetArticle (router) {
   useEffect(() => {
     if ( !article ) {
       if (router.match.params?.article_id) {
-        ArticleApi.getArticles({
-          params: { id: router.match.params.article_id }
+        ArticleApi.getArticle({
+          id: router.match.params.article_id
         }).then(res => {
           if (res.data.code) { return }
-          setArticle(res.data.data.articles[0])
+          setArticle(res.data.data)
         })
       }
     }

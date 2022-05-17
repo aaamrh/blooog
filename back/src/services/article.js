@@ -17,9 +17,7 @@ async function selectArticle (id) {
   const result = await Article.findOne({
     where: { id },
     include: [
-      {
-        model: Classify
-      }
+      { model: Classify }
     ]
   })
   return result.dataValues
@@ -81,9 +79,31 @@ async function selectArticleListByClassify (args, { cursor = 0, limit = 10, keyw
   }
 }
 
+/**
+ * 更新文章
+ * @param {*}  id, title, content, text, classifyId, userId
+ * @returns 0 | 1
+ */
+async function updateArticle ({ id, title, content, text, classifyId, userId }) {
+  const result = await Article.update({
+    title,
+    content,
+    text,
+    classifyId
+  }, {
+    where: {
+      id,
+      userId
+    }
+  })
+
+  return result[0]
+}
+
 module.exports = {
   createArticle,
   selectArticle,
   selectArticleList,
-  selectArticleListByClassify
+  selectArticleListByClassify,
+  updateArticle
 }

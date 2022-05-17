@@ -1,6 +1,17 @@
-const { createArticle, selectArticle, selectArticleList, selectArticleListByClassify } = require("../services/article")
 const { SuccessModel, ErrorModel } = require("../utils/resModel")
-const { publishArticleFailInfo, getArticleFailInfo, getArticleListFailInfo } = require("../utils/errorInfo")
+const {
+  createArticle, 
+  selectArticle,
+  selectArticleList,
+  selectArticleListByClassify,
+  updateArticle
+} = require("../services/article")
+const {
+  publishArticleFailInfo,
+  getArticleFailInfo,
+  getArticleListFailInfo,
+  updateArticleListFailInfo
+} = require("../utils/errorInfo")
 
 // 获取文章列表
 async function getArticleList (args, page) {
@@ -46,7 +57,7 @@ async function publishArticle (ctx, { title, content, text, classifyId }) {
 }
 
 /**
- * 
+ * 根据文章id获取文章详情
  * @param {文章id} articleId 
  * @returns 
  */ 
@@ -60,10 +71,26 @@ async function getArticleInfo (articleId) {
   }
 }
 
+/**
+ * 修改文章
+ * @param {文章id} articleId 
+ * @returns 
+ */ 
+async function modifyArticle (ctx, { id, title, content, text, classifyId }) {
+  try {
+    const affectedRows = await updateArticle({ id, userId: 1, title, content, text, classifyId }) // 0 | 1 
+    
+    if (affectedRows) { return new SuccessModel(article) }
+    return new ErrorModel(updateArticleListFailInfo)
+  } catch (e) {
+    return new ErrorModel(updateArticleListFailInfo)
+  }
+}
 
 module.exports = {
   publishArticle,
   getArticleInfo,
   getArticleList,
-  getArticleListByClassify
+  getArticleListByClassify,
+  modifyArticle
 }
