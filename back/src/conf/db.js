@@ -2,16 +2,16 @@ const { isProd } = require('../utils/env')
 
 let MYSQL_CONF = {
   host: 'localhost',
-  user: 'root',
-  password: 'ma.1996',
+  user: process.env.DB_USER,
+  password: process.env.DB_PWD,
   database: 'blooog',
   port: 3306
 }
 
 if (isProd) {
   MYSQL_CONF = {
-    user: 'root',
-    password: 'ma.1996',
+    user: process.env.DB_USER,
+    password: process.env.DB_PWD,
     database: 'blooog',
     host: 'localhost' ,
     port: 3306
