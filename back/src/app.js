@@ -5,12 +5,15 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+let dotenv =  require('dotenv');
 
 const index = require('./routes/index')
 const classifyApiRouter = require('./routes/classify')
-const articleAPIRouter = require('./routes/article');
+const articleAPIRouter = require('./routes/article')
 // error handler 页面上显示错误
 onerror(app)
+
+dotenv.config('./.env')
 
 // middlewares
 app.use(bodyparser({
