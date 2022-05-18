@@ -26,7 +26,7 @@ const _classify = [
  * @param {_classify} data 由数据库返回
  * @returns 
  */
-function getNav (data) {
+function getNav (data = []) {
   let navs = [
     {
       title: '首页',
