@@ -71,7 +71,7 @@ const config = {
         ]
       },
       {
-        test: /\.(png|svg|jpe?g|gif)$/i,
+        test: /\.(png|svg|jpe?g|gif|webp)$/i,
         type: 'asset',
         parser: {
           dataUrlCondition:{

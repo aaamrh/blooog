@@ -5,12 +5,13 @@ import HomeLayout from './layout/HomeLayout';
 import PageArticle from './pages/Article';
 import Editor from './pages/Editor';
 import Home from './pages/Home';
+import Login from './pages/Login';
 
 function MyRouter () {
 	return <BrowserRouter>
 		<App>
 			<Switch>
-				<Route path='/login' component={<>login</>} />
+				<Route path='/login' component={Login} />
 				<Route path='/admin' render={()=>{
 					return (
 						<AdminLayout>
