@@ -13,6 +13,8 @@ let MYSQL_CONF = {
   port: 3306
 }
 
+console.log(process.env.DB_USER)
+
 if (isProd) {
   MYSQL_CONF = {
     user: process.env.DB_USER,
