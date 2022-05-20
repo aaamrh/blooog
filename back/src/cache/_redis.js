@@ -23,8 +23,11 @@ async function rset (key, val, timeout = 60 * 60) {
     val = JSON.stringify(val)
   }
 
-  await redisClient.set(key, val)
-  await redisClient.expire(key, timeout)
+  await redisClient.set(key, val, {
+    EX: timeout,
+    NX: true
+  })
+  // redisClient.expire(key, timeout)
 }
 
 async function rget (key) {
