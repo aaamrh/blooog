@@ -1,21 +1,26 @@
 const Core = require('@alicloud/pop-core');
+const { rset } = require('../cache/_redis');
+const { genCodeNumber } = require('./index')
 
-var client = new Core({
-  accessKeyId: 'LTAI5tSe48uYxDr25LFrj23Z',
-  accessKeySecret: 'Nsr9LcdeufoHadfnJQntLKuivbez8o',
+const client = new Core({
+  accessKeyId: process.env.ALI_ACCESS_KEY_ID,
+  accessKeySecret: process.env.ALI_ACCESS_KEY_SECRET,
   // securityToken: '<your-sts-token>', // use STS Token
   endpoint: 'https://dysmsapi.aliyuncs.com',
   apiVersion: '2017-05-25'
 });
 
-var params = {
+const code = genCodeNumber(4)
+rset('login-captcha', code, 5 * 60)
+
+const params = {
   "PhoneNumbers": "17615004096",
   "SignName": "铁头的梦想",
   "TemplateCode": "SMS_236565464",
-  "TemplateParam": "{code: 123456}"
+  "TemplateParam": code
 }
 
-var requestOption = {
+const requestOption = {
   method: 'POST',
   formatParams: false
 };
