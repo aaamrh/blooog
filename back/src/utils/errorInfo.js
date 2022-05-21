@@ -3,6 +3,14 @@
  */
 
 module.exports = {
+  getCodeFrequently: {
+    code: 10005,
+    message: '验证码获取太频繁, 请5分钟后再试'
+  },
+  getCodeFailInfo: {
+    code: 10006,
+    message: '验证码获取失败, 请重试'
+  },
   publishArticleFailInfo: {
     code: 10102,
     message: '创建文章失败，请重试'
@@ -31,6 +39,8 @@ module.exports = {
  * 10002 注册失败
  * 10003 身份过期
  * 10004 验证码错误
+ * 10005 频繁获取验证码
+ * 10006 获取验证码失败
  * 
  * 
  * 10100 文章相关
