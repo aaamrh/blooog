@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react"
+import CaptchaApi from "../../api/captcha"
 
 function Login (props) {
   const [phone,  setPhone] = useState('')
@@ -12,6 +13,9 @@ function Login (props) {
 
   const getCaptcha = () => {
     setCountdown(3)
+    CaptchaApi.getCaptcha().then(res => {
+      console.log(res)
+    })
     timer.current = setInterval(() => {
       setCountdown(time => {
         if (time === 0) { 

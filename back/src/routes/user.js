@@ -5,18 +5,24 @@ const code = require('../utils/code')
 
 router.prefix('/api/user')
 
-router.get('/set', async (ctx, next) => {
-  let captcha = await rget('login-captcha')
+// router.get('/captcha', async (ctx, next) => {
+//   let captcha = await rget('login-captcha')
   
-  if (captcha) {
-    ctx.body = '验证码已发送, 5分钟后再试'
-    return
-  }
+//   if (captcha) {
+//     ctx.body = '验证码已发送, 5分钟后再试'
+//     return
+//   }
 
-  ctx.body = await code()
-})
+//   const [code, res] = await code()
 
-router.get('/get',  async (ctx, next) => {
+//   if (res.Code === 'OK') {
+//     rset('login-captcha', code, 5 * 60)
+//   }
+
+//   ctx.body = res
+// })
+
+router.post('/login',  async (ctx, next) => {
   ctx.body = await rget('login-captcha')
 })
 

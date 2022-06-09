@@ -9,7 +9,7 @@ const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 require('dotenv').config();
 
-console.log(process.env)  
+// console.log(process.env)  
 
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 const { REDIS_CONF } = require('./conf/db')
@@ -18,6 +18,7 @@ const index = require('./routes/index')
 const classifyApiRouter = require('./routes/classify')
 const articleAPIRouter = require('./routes/article')
 const userAPIRouter = require('./routes/user')
+const captchaAPIRouter = require('./routes/captcha')
 // error handler 页面上显示错误
 onerror(app)
 
@@ -59,6 +60,7 @@ app.use(index.routes(), index.allowedMethods())
 app.use(classifyApiRouter.routes(), classifyApiRouter.allowedMethods())
 app.use(articleAPIRouter.routes(), articleAPIRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+app.use(captchaAPIRouter.routes(), captchaAPIRouter.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

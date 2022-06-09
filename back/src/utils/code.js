@@ -17,7 +17,6 @@ const requestOption = {
 
 module.exports = (phone) => {
   const code = utils.genCodeNumber(4)
-  rset('login-captcha', code, 5 * 60)
 
   const params = {
     PhoneNumbers: '17615004096', // TODO 暂时只能自己登录, 所以只能给自己发短信
@@ -26,7 +25,7 @@ module.exports = (phone) => {
     TemplateParam: JSON.stringify({ code })
   }
 
-  return client.request('SendSms', params, requestOption)
+  return [code, client.request('SendSms', params, requestOption)]
 }
 
 // client.request('SendSms', params, requestOption).then((result) => {
