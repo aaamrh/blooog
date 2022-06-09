@@ -7,6 +7,11 @@
 
 	&__title{
 		margin: $gap-base 0;
+		animation: hue-text-color 5s linear infinite;
+		background-image: linear-gradient( to right,rgb(232, 92, 92),rgba(245, 194, 64, 0.959));
+    -webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		font-weight: 800;
 	}
 
 	&__content{

@@ -9,6 +9,8 @@ const session = require('koa-generic-session')
 const redisStore = require('koa-redis')
 require('dotenv').config();
 
+console.log(process.env)  
+
 const { SESSION_SECRET_KEY } = require('./conf/secretKeys')
 const { REDIS_CONF } = require('./conf/db')
 

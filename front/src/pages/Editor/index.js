@@ -10,6 +10,7 @@ import request from '../../utils/request';
 import { useGetClassify } from '../../store/action';
 import ArticleApi from '../../api/article';
 import { useGetArticle } from '../../store/action/article';
+import { combineReducers } from 'redux';
 
 function notEmptyArr (arr) {
   return arr.length > 0
@@ -90,9 +91,10 @@ function IEditor(props) {
       text: editor.getText(),
       content: editor.getHtml(),
     }
+    console.log(articleId)
 
     // 有 article_id 则是编辑
-    if (articleId ?? true) { // ?? 是为了确保id是 0 是为真值条件, 否则 if 0 不通过
+    if (articleId || +articleId === 0) { // ?? 是为了确保id是 0 是为真值条件, 否则 if 0 不通过
       const result = await ArticleApi.modifyArticles({
         data,
         id: articleId
