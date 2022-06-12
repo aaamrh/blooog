@@ -16,14 +16,14 @@ router.post('/', async (ctx, next) => {
   const [cd, res] = await code()
 
   if (res.Code === 'OK') {
-    rset('login-captcha', cd, 5 * 60)
+    await rset('login-captcha', cd, 1 * 60) // 
   }
 
   ctx.body = res
 })
-
+ 
 // router.post('/get',  async (ctx, next) => {
 //   ctx.body = await rget('login-captcha')
 // })
-
+  
 module.exports = router

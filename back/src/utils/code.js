@@ -15,7 +15,7 @@ const requestOption = {
   formatParams: false
 }
 
-module.exports = (phone) => {
+module.exports = async (phone) => {
   const code = utils.genCodeNumber(4)
 
   const params = {
@@ -25,7 +25,7 @@ module.exports = (phone) => {
     TemplateParam: JSON.stringify({ code })
   }
 
-  return [code, client.request('SendSms', params, requestOption)]
+  return [code, await client.request('SendSms', params, requestOption)]
 }
 
 // client.request('SendSms', params, requestOption).then((result) => {

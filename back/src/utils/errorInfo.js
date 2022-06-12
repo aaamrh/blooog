@@ -3,13 +3,29 @@
  */
 
 module.exports = {
+  loginErr: {
+    code: 10001,
+    message: '登录失败, 用户名或验证码错误'
+  },
+  codeErrFrequently: {
+    code: 10004,
+    message: '验证码获取太频繁, 请5分钟后再试'
+  },
   getCodeFrequently: {
     code: 10005,
-    message: '验证码获取太频繁, 请5分钟后再试'
+    message: '频繁获取验证码'
   },
   getCodeFailInfo: {
     code: 10006,
     message: '验证码获取失败, 请重试'
+  },
+  codeExpired: {
+    code: 10007,
+    message: '验证码已过期, 请重新获取验证码'
+  },
+  tokenExpired: {
+    code: 10008,
+    message: '用户身份无效'
   },
   publishArticleFailInfo: {
     code: 10102,
@@ -35,12 +51,14 @@ module.exports = {
 
 /** 
  * 10000 用户相关
- * 10001 登录失败, 用户名或密码错误
+ * 10001 登录失败, 用户名或验证码错误
  * 10002 注册失败
  * 10003 身份过期
- * 10004 验证码错误
+ * 10004 验证码错误次数超过5次, 请重新获取验证码
  * 10005 频繁获取验证码
  * 10006 获取验证码失败
+ * 10007 验证码已过期, 请重新获取验证码
+ * 10008 用户身份无效
  * 
  * 
  * 10100 文章相关

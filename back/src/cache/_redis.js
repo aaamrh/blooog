@@ -25,9 +25,8 @@ async function rset (key, val, timeout = 60 * 60) {
 
   await redisClient.set(key, val, {
     EX: timeout,
-    NX: true
+    // NX: true
   })
-  // redisClient.expire(key, timeout)
 }
 
 async function rget (key) {
@@ -35,7 +34,12 @@ async function rget (key) {
   return value
 }
 
+async function rttl (key) {
+  return await redisClient.ttl(key)
+}
+
 module.exports = {
   rset,
-  rget
+  rget,
+  rttl
 }

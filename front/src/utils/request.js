@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 class Request {
   constructor(){
@@ -16,27 +17,45 @@ const _request = axios.create({
 
 _request.interceptors.response.use(
   (response) => {
-    // console.log('response', response)
+    console.log('response', response)
+    const { code } = response.data
+
+    if (code) {
+      handleError(code)
+      return Promise.reject(response)
+    }
 
     return response
   },
   (err) => {
     // console.log(err, err.response)
-
-    return Promise.reject('sth error')
+    return Promise.reject(err)
   }
 )
 
 
 _request.interceptors.request.use(
   (config) => {
-    // token && config.headers.Authorization = token
+    const token = Cookies.get('tk')
+    token && (config.headers.Authorization = token)
+
     return config
   },
   (err) => {
     console.log('请求出错了', err, err?.response, err?.request)
   }
 )
+
+function handleError (code) {
+  switch(code){
+    case 10008:
+      Cookies.remove('tk')
+      break
+
+    default:
+      return Promise.reject()
+  }
+}
 
 /**
  * 非500的后台错误有 error 和 errors 两种，需分别处理

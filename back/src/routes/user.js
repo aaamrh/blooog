@@ -1,29 +1,33 @@
 const router = require('koa-router')()
 
-const { rget, rset } = require('../cache/_redis')
-const code = require('../utils/code')
+const { rget, rset, rttl } = require('../cache/_redis')
+const { throttle, isAuth } = require('../middlewares')
+const { loginErr, codeExpired } = require('../utils/errorInfo')
+const { SuccessModel, ErrorModel } = require('../utils/resModel')
+const { sign, decode, verify } = require('jsonwebtoken');
 
 router.prefix('/api/user')
 
-// router.get('/captcha', async (ctx, next) => {
-//   let captcha = await rget('login-captcha')
+router.post('/verify', isAuth, async (ctx, next) => {
+  ctx.body = new SuccessModel()
+})
   
-//   if (captcha) {
-//     ctx.body = '验证码已发送, 5分钟后再试'
-//     return
-//   }
+router.post('/login', throttle, async (ctx, next) => {
+  const { phone, captcha } = ctx.request.body
 
-//   const [code, res] = await code()
+  if (!await rget('login-captcha')) {
+    return ctx.body = new ErrorModel(codeExpired)
+  }
 
-//   if (res.Code === 'OK') {
-//     rset('login-captcha', code, 5 * 60)
-//   }
+  if (phone !== process.env.PHONE && captcha !== await rget('login-captcha')) {
+    return ctx.body = new ErrorModel(loginErr)
+  }
 
-//   ctx.body = res
-// })
+  const jwt = sign({ phone }, process.env.SECRET, { expiresIn: '7 days' })
 
-router.post('/login',  async (ctx, next) => {
-  ctx.body = await rget('login-captcha')
+  return ctx.body = new SuccessModel({
+    token: jwt
+  })
 })
 
 module.exports = router
