@@ -23,7 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev": "webpack serve --mode development",
+    "dev": "webpack serve --mode development --port 3100",
     "_build": "webpack"
   },
   "eslintConfig": {
