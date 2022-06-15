@@ -47,6 +47,7 @@ async function getArticleListByClassify (args, page) {
  */
 async function publishArticle (ctx, { title, content, text, classifyId }) {
   // TODO const { id: userId = 1 } = ctx.session
+  console.log(title, content, text, classifyId)
   try {
     const article = await createArticle({ userId: 1, title, content, text, classifyId })
     return new SuccessModel(article)

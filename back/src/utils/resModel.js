@@ -22,7 +22,7 @@ class SuccessModel extends BaseModel {
 }
 
 class ErrorModel extends BaseModel {
-  constructor (code, message) {
+  constructor ({ code, message }) {
     super({
       code,
       message

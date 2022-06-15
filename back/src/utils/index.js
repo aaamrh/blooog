@@ -1,4 +1,4 @@
-moduel.export = {
+module.exports = {
   genCode (len=16) {
     const str = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWSYZ0123456789'
     let result = '';
@@ -13,7 +13,7 @@ moduel.export = {
    * @returns 
    */
   genCodeNumber (len=4) {
-    return this.random(Math.pow(10, len), Math.pow(10, len+1) - 1)
+    return this.random(Math.pow(10, len-1), Math.pow(10, len) - 1)
   },
   random (min=0, max=1) {
     return Math.round( Math.random() * (max - min) + min )

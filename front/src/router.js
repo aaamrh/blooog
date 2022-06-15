@@ -1,5 +1,6 @@
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 import App from './App';
+import AuthRoute from './components/AuthRoute';
 import AdminLayout from './layout/AdminLayout';
 import HomeLayout from './layout/HomeLayout';
 import PageArticle from './pages/Article';
@@ -26,7 +27,8 @@ function MyRouter () {
 						</Switch>
 					</HomeLayout>
 				}/>
-				<Route path={['/editor', '/editor/:article_id']} exact component={Editor} />
+				<AuthRoute path={['/editor', '/editor/:article_id']} exact component={Editor} />
+				{/* <Route path={['/editor', '/editor/:article_id']} exact component={Editor} /> */}
 				<Route path='/' render={()=>{
 					return ( 
 						<HomeLayout>

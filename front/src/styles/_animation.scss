@@ -27,3 +27,12 @@ $ani-bear-run: bear-run;
     transform: translateX(-100%);
   }
 }
+
+@keyframes hue-text-color {
+	form{
+		filter: hue-rotate(0deg);
+	}
+	to{
+		filter: hue-rotate(360deg);
+	}
+}
