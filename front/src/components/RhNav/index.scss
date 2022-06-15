@@ -4,29 +4,54 @@
 	flex-direction: row;
 	justify-content: start;
 	margin: 0;
-	// margin-top: $gap-base;
 
 	.rh-nav{
-		cursor: pointer;
-		margin-left: $gap-base;
-
 		a{
+			position: relative;
+			background: $gray-200;
+			padding: $gap-sm $gap-base;
 			display: inline-block;
-			color: $black;
-			line-height: $line-height-base;
-			margin-bottom: -2px;
-			padding: $gap-sm $gap-sm;
-		}
-
-		a.active{
-			border-bottom: 2px solid $green;
-			color: $black;
-		}
-
-		&:hover{
-			a{
-				border-bottom: 2px solid $green;
-				color: $black;
+			transition: .3s;
+			color: $primary;
+			&:visited{
+				color: $primary;
+			}
+			&:hover,
+			&.active{
+				background: $primary;
+				transform: translateY(-5px);
+				color: $white;
+			}
+			&:hover::before,
+			&.active::before{
+				background: lighten($primary, 3%);
+			}
+			&:hover::after,
+			&.active::after{
+				background: darken($primary, 5%);
+			}
+	
+			&::before{
+				content: '';
+				transition: .3s;
+				position: absolute;
+				width: 100%;
+				height: 7px;
+				background: lighten($gray-200, 3%);
+				top: -7.2px;
+				left: 6px;
+				transform: skewX(-60deg);
+			}
+			&::after{
+				content: '';
+				transition: .3s;
+				position: absolute;
+				width: 12px;
+				height: 100%;
+				background: darken($gray-200, 5%);
+				top: -3.6px;
+				right: -12px;
+				transform: skewY(-30deg);
 			}
 		}
 	}

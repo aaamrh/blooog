@@ -7,16 +7,17 @@ function RhNav(props){
     <ul className={`rh-navs ${className ? className : ''}`}>
 				{
 					navlist.map((nav, index)=>{
+						
+						const active = nav.isActive ? ()=>{
+							return nav.isActive(pathname)
+						}: null;
+
 						return  <li className="rh-nav" key={index}> 
 							<NavLink
 								to={nav.path}
 								exact={nav.exact}
 								activeClassName="active"
-								isActive={
-									nav.isActive ? ()=>{
-										return nav.isActive(pathname)
-									}: null
-								}
+								isActive={ active }
 								onClick={ () => {}}
 								key={index}
 							>{nav.title}</NavLink>
