@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import { TOKEN_KEY } from './constant'
 
 class Request {
   constructor(){
@@ -17,11 +18,11 @@ const _request = axios.create({
 
 _request.interceptors.response.use(
   (response) => {
-    console.log('response', response)
     const { code } = response.data
 
     if (code) {
       handleError(code)
+      console.error('错误🍐', response)
       return Promise.reject(response)
     }
 
@@ -33,10 +34,9 @@ _request.interceptors.response.use(
   }
 )
 
-
 _request.interceptors.request.use(
   (config) => {
-    const token = Cookies.get('tk')
+    const token = Cookies.get(TOKEN_KEY)
     token && (config.headers.Authorization = token)
 
     return config
@@ -49,10 +49,12 @@ _request.interceptors.request.use(
 function handleError (code) {
   switch(code){
     case 10008:
-      Cookies.remove('tk')
+      Cookies.remove(TOKEN_KEY)
+      alert('code: 10008, 状态码失效')
       break
 
     default:
+      alert(`错误${code}`)
       return Promise.reject()
   }
 }
@@ -64,14 +66,10 @@ function handleError (code) {
  * @param {*} resp
  * @returns string
  */
-const formatErrMsg = (error, errors, resp) => {
+const formaetErrMsg = (error, errors, resp) => {
   let result = ''
 
   if (error) { result = error }
-
-  if (errors) {
-    for (const i in errors) { result += `${i}: ${errors[i].join('、')}\n` }
-  }
 
   if (result === '' && resp.status === 500) {
     result += `500: 接口 ${resp.request.responseURL.split('/api')[1]} 出错`

@@ -23,7 +23,6 @@ function useIsAuth(key = "tk") {
     });
   }
 
-
   return [isAuth, verify];
 }
 

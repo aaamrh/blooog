@@ -1,7 +1,7 @@
 const { verify } = require("jsonwebtoken");
 const { rset, rget, rttl } = require("../cache/_redis");
 const { codeErrFrequently, tokenExpired } = require("../utils/errorInfo");
-const { ErrorModel } = require("../utils/resModel");
+const { ErrorModel, SuccessModel } = require("../utils/resModel");
 
 async function throttle(ctx, next) {
   const key = `api-${ctx.request.url}-${ctx.request.method}`
@@ -26,12 +26,11 @@ async function isAuth (ctx, next) {
     return ctx.body = new ErrorModel(tokenExpired)
   }
 
-  verify(token, process.env.SECRET, (err, decoded) => {
+  let result = verify(token, process.env.SECRET, (err, decoded) => {
     if (err) {
       return ctx.body = new ErrorModel(tokenExpired)
     }
   })
-
   await next()
 }
 

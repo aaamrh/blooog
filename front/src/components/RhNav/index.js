@@ -2,7 +2,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 
 function RhNav(props){
-  let { navlist, pathname, className } = props;
+  let { navlist, pathname, className, onClick=()=>{} } = props;
   return (
     <ul className={`rh-navs ${className ? className : ''}`}>
 				{
@@ -18,7 +18,7 @@ function RhNav(props){
 								exact={nav.exact}
 								activeClassName="active"
 								isActive={ active }
-								onClick={ () => {}}
+								onClick={ () => {onClick()} }
 								key={index}
 							>{nav.title}</NavLink>
 						</li>

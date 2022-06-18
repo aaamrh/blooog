@@ -2,7 +2,6 @@ import { lazy, Suspense, useState, useEffect, memo, useMemo, useRef } from 'reac
 import { useLocation, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import ArticleCard from '../../components/ArticleCard';
-import axios from 'axios';
 import RhNav from '../../components/RhNav';
 
 import  '../../mock/test.mock';
@@ -15,20 +14,6 @@ import { useGetClassify } from '../../store/action';
 import { SET_CURRENT_CLASSIFY } from '../../store/reducer/classify';
 import img from '/public/images/3dr_mono.png'
 
-let canGetMoreArticles = true; // 是否可以获取更多文章
-
-function onScroll(cb) {
-	return function(e){
-		const { scrollHeight, offsetHeight, scrollTop } = e.target;
-			if( scrollHeight <= offsetHeight + scrollTop + 200 ){
-				if( canGetMoreArticles ){
-					canGetMoreArticles = false;
-					cb()
-				}
-			}
-	}
-}
-
 // 计算函数
 function computedTransform(num, doc) {
   return (num / doc * 30 - 15).toFixed(1)
@@ -40,7 +25,7 @@ function computedBGPosition(num, doc) {
 }
 
 function Home (props) {
-	const { data: classifies, curClassify } = useSelector(state => state.classify)
+	const { data: classifies } = useSelector(state => state.classify)
 	const { data: articles, count } = useSelector(state => state.articles)
 	const { pathname } = useLocation()
 	const params = useParams()
@@ -54,23 +39,8 @@ function Home (props) {
 	let { subNavs = [] } = getNav(classifies);
 	let subNav = subNavs[`${pathname.split('/')[1]}`] || [];
 
-	const getArticleType = () => {
-		let type ='';
-
-		if (pathname === '/') {
-			type = 'all'
-		} else if ( params?.type ) {
-			type = params.type
-		} else {
-			type = subNav[0]?.type
-		}
-
-		dispatch({ type: SET_CURRENT_CLASSIFY, classify: type })
-	}
-
 	useEffect(() => {
 		if (ctntRef.current) {
-			console.log('didmount')
 			document.addEventListener('mousemove', (e) => {
 				// cardRef.current.style.transform = `
 				// 	rotateX(${-computedTransform(e.clientY, window.innerHeight)}deg)
@@ -84,23 +54,27 @@ function Home (props) {
 					translateX(${-computedTransform(e.clientX, window.innerWidth)}px)
 					translateY(${computedTransform(e.clientY, window.innerHeight)}px)
 				`
-
 			})
 		}
 	}, [])
 
-	// FIXME: 获取到分类后才能获取初始化的数据
-	useEffect(() => {
-		if (count === -1) { getArticleType() }
-	}, [classifies])
 
 	useEffect(() => {
-		getArticleType() // 切换导航, 则获取分类
+		const getArticleType = () => {
+			let type ='';
+	
+			if (pathname === '/') {
+				type = 'all'
+			} else if ( params?.type ) {
+				type = params.type
+			} else {
+				type = subNav[0]?.type
+			}
+			return type
+		}
+
+		getArticles(getArticleType(), 0, GET_ARTICLES)
 	}, [pathname])
-
-	useEffect(() => {
-		getArticles(curClassify, 0, GET_ARTICLES)
-	}, [curClassify])
 
 	return <div className="page-home" ref={ctntRef}>
 		<RhNav className='nav' navlist={subNav} pathname={pathname} />

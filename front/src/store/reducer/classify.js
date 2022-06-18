@@ -9,17 +9,13 @@ function classify (store={
     case CLASSIFY_GET:
       return { ...store, data: action.data }
 
-    case SET_CURRENT_CLASSIFY: 
-      return { ...store, curClassify: action.classify }
-    
     default:
       return store
   }
 }
 
 export {
-  CLASSIFY_GET,
-  SET_CURRENT_CLASSIFY
+  CLASSIFY_GET
 }
 
 export default classify

@@ -1,8 +1,9 @@
 import { Route, Redirect, useLocation } from 'react-router-dom'
 import Cookies from 'js-cookie'
+import { TOKEN_KEY } from '../utils/constant'
 
 function AuthRoute (props) {
-  const token = Cookies.get('tk')
+  const token = Cookies.get(TOKEN_KEY)
   const location = useLocation()
 
   const {path, component} = props
