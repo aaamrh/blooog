@@ -97,7 +97,8 @@ const config = {
     new HtmlWebpackPlugin({
       title: '',
       filename: 'index.html',
-      template: resolve(__dirname, './public/index.html')
+      template: resolve(__dirname, './public/index.html'),
+      favicon: resolve(__dirname, './public/favicon.ico')
     })
   ]
 }
