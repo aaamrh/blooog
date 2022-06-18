@@ -6,7 +6,7 @@ import { GET_ARTICLES } from '../reducer/articles'
 // FIXME 获取文章信息 但是用的是获取文章列表的接口
 function useGetArticle (router) {
   const [article, setArticle] = useState(router.location?.state?.article)
-
+  console.log('router', router)
   useEffect(() => {
     if ( !article ) {
       if (router.match.params?.article_id) {

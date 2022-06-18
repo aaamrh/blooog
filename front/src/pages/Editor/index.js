@@ -24,7 +24,7 @@ function IEditor(props) {
 
   // 其他状态
   const { data: classify } = useSelector(state => state.classify)
-  const [form, setForm] = useGetArticle(props)
+  const [article, setArticle] = useGetArticle(props)
   const [firstCId, setFirstCId] = useState(-1) // 一级分类id
   const [secondCId, setSecondCId] = useState(-1) // 二级分类id
   // -------- state end -----------
@@ -34,7 +34,7 @@ function IEditor(props) {
   const editorConfig = {
     placeholder: '请输入内容...',
   }
-  const articleId = form?.id
+  const articleId = article?.id
 
   if (firstCId < 0 && notEmptyArr(classify)) {
     const _firstCId = +(classify.find(o => o.parentId === 0).id)
@@ -55,10 +55,11 @@ function IEditor(props) {
   useEffect(()=>{
     // 只在页面打开后, 获取到文章信息后同步一次content
     // 因为Editor会对content进行处理, 所以htmlContent获取到的不是 '', 而是 <p><br></p>
-    if (  htmlContent === '<p><br></p>' && form?.content ) {
-      setHtmlContent(form?.content)
+    console.log(article, htmlContent)
+    if (  htmlContent === null && article?.content ) {
+      setHtmlContent(article?.content)
     }
-  }, [form])
+  }, [article])
 
 
   useEffect(()=>{
@@ -77,15 +78,15 @@ function IEditor(props) {
 
     if (target.name === 'second-classification') { setSecondCId(target.value); return }
 
-    setForm({
-      ...form,
+    setArticle({
+      ...article,
       [ target.name ] : target.value
     })
   }
 
   const submit = async () => {
     let data = {
-      ...form,
+      ...article,
       firstCId,
       secondCId,
       text: editor.getText(),
@@ -95,6 +96,7 @@ function IEditor(props) {
 
     // 有 article_id 则是编辑
     if (articleId || +articleId === 0) { // ?? 是为了确保id是 0 是为真值条件, 否则 if 0 不通过
+      console.log(21123132)
       const result = await ArticleApi.modifyArticles({
         data,
         id: articleId
@@ -167,7 +169,7 @@ function IEditor(props) {
 
             <div className="editor-container">
               <div className="editor-title">
-                <input type={'text'} name="title" value={form?.title}  placeholder="请输入标题" onChange={ onChange } />
+                <input type={'text'} name="title" value={article?.title}  placeholder="请输入标题" onChange={ onChange } />
               </div>
               <div className="editor-paper">
                 <Editor

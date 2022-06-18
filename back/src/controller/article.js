@@ -80,8 +80,7 @@ async function getArticleInfo (articleId) {
 async function modifyArticle (ctx, { id, title, content, text, classifyId }) {
   try {
     const affectedRows = await updateArticle({ id, userId: 1, title, content, text, classifyId }) // 0 | 1 
-    
-    if (affectedRows) { return new SuccessModel(article) }
+    if (affectedRows) { return new SuccessModel() }
     return new ErrorModel(updateArticleListFailInfo)
   } catch (e) {
     return new ErrorModel(updateArticleListFailInfo)
