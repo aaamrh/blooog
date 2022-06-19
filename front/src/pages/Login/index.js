@@ -17,16 +17,9 @@ function Login (props) {
   const [isVarified, verify] = useIsAuth()
 
   useMounted(() => { verify() })
-  console.log(isVarified, 'isVarified')
-
-  // if (isVarified) { toDestiny() }
-
-  const onChange = (e) => {
-    const { target } = e
-  }
 
   const getCaptcha = () => {
-    setCountdown(5)
+    setCountdown(60)
     CaptchaApi.getCaptcha().then(res => {
       console.log(res, 'getCaptcha')
       const token = res.data.token;
