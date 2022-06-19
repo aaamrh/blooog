@@ -13,7 +13,7 @@ function Article (props) {
   }, [])
 
   return <div className='m-article'>
-    <h3> {title} </h3>
+    <h1> {title} </h1>
     <p className='article-info'>发布时间： {createdAt} <Link to={{ pathname:`/editor/${id}`, state: {article} }}>编辑</Link></p>
     {/* <ReactMarkdown rehypePlugins={[rehypeRaw]} children={content} /> */}
     

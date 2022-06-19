@@ -40,21 +40,25 @@ function Home (props) {
 	let subNav = subNavs[`${pathname.split('/')[1]}`] || [];
 
 	useEffect(() => {
+		function pictureTranform (e) {
+			// cardRef.current.style.transform = `
+			// 	rotateX(${-computedTransform(e.clientY, window.innerHeight)}deg)
+			// 	rotateY(${computedTransform(e.clientX, window.innerWidth)}deg)
+			// `
+			cardRef.current.style.backgroundPosition = `
+				${computedBGPosition(e.clientX, window.innerWidth)} 
+				${computedBGPosition(e.clientY, window.innerHeight)}
+			`
+			imgRef.current.style.transform = `
+				translateX(${-computedTransform(e.clientX, window.innerWidth)}px)
+				translateY(${computedTransform(e.clientY, window.innerHeight)}px)
+			`
+		}
 		if (ctntRef.current) {
-			document.addEventListener('mousemove', (e) => {
-				// cardRef.current.style.transform = `
-				// 	rotateX(${-computedTransform(e.clientY, window.innerHeight)}deg)
-				// 	rotateY(${computedTransform(e.clientX, window.innerWidth)}deg)
-				// `
-				cardRef.current.style.backgroundPosition = `
-					${computedBGPosition(e.clientX, window.innerWidth)} 
-					${computedBGPosition(e.clientY, window.innerHeight)}
-				`
-				imgRef.current.style.transform = `
-					translateX(${-computedTransform(e.clientX, window.innerWidth)}px)
-					translateY(${computedTransform(e.clientY, window.innerHeight)}px)
-				`
-			})
+			document.addEventListener('mousemove', pictureTranform)
+		}
+		return () =>{
+			document.removeEventListener('mousemove', pictureTranform)
 		}
 	}, [])
 

@@ -96,7 +96,6 @@ function IEditor(props) {
 
     // 有 article_id 则是编辑
     if (articleId || +articleId === 0) { // ?? 是为了确保id是 0 是为真值条件, 否则 if 0 不通过
-      console.log(21123132)
       const result = await ArticleApi.modifyArticles({
         data,
         id: articleId
