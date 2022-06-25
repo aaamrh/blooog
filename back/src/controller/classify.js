@@ -22,12 +22,12 @@ async function getClassifyList () {
  * 获取一个分类
  * @returns 
  */
-async function getClassify (id, parentId) {
+async function getClassify (id) {
   try {
-    const result = await selectClassify(id, parentId)
+    const result = await selectClassify(id)
     return new SuccessModel(result)
   } catch (e) {
-    return new ErrorModel(getClassifyListFailInfo)
+    return new ErrorModel(getClassifyFailInfo)
   }
 }
 

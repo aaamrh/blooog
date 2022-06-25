@@ -11,7 +11,7 @@ function useLoadmore () {
   const dom = useRef(null)
   const [msg, setMsg] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
-  const { data: classifies, curClassify } = useSelector(state => state.classify)
+  const { data: classifies, curClassify } = useSelector(state => state.classify) // FIXME 可以从url中获取
   const { data: articles } = useSelector(state => state.articles)
   const getArticles = useGetArticles()
   const cursorRef = useRef(1) // 第一页cursor是0， 因此从第二页1开始请求

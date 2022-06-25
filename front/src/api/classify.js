@@ -20,6 +20,13 @@ class Api extends Request {
       method: 'post'
     })
   }
+
+  getClassifyById (id) {
+    return this.request({
+      url: `/classify/${id}`,
+      method: 'get'
+    })
+  }
 }
 
 const ClassifyApi = new Api()

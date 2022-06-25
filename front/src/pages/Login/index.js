@@ -21,7 +21,6 @@ function Login (props) {
   const getCaptcha = () => {
     setCountdown(60)
     CaptchaApi.getCaptcha().then(res => {
-      console.log(res, 'getCaptcha')
       const token = res.data.token;
       Cookies.set(TOKEN_KEY, token)
     })

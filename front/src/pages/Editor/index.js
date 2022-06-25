@@ -11,6 +11,7 @@ import { useGetClassify } from '../../store/action';
 import ArticleApi from '../../api/article';
 import { useGetArticle } from '../../store/action/article';
 import { combineReducers } from 'redux';
+import ClassifyApi from '../../api/classify';
 
 function notEmptyArr (arr) {
   return arr.length > 0
@@ -55,9 +56,11 @@ function IEditor(props) {
   useEffect(()=>{
     // 只在页面打开后, 获取到文章信息后同步一次content
     // 因为Editor会对content进行处理, 所以htmlContent获取到的不是 '', 而是 <p><br></p>
-    console.log(article, htmlContent)
+    // console.log(article, htmlContent)
     if (  htmlContent === null && article?.content ) {
       setHtmlContent(article?.content)
+      setFirstCId(article.classify.parentId)
+      setSecondCId(article.classifyId)
     }
   }, [article])
 
@@ -76,7 +79,7 @@ function IEditor(props) {
       return 
     }
 
-    if (target.name === 'second-classification') { setSecondCId(target.value); return }
+    if (target.name === 'second-classification') { setSecondCId(+target.value); return }
 
     setArticle({
       ...article,
@@ -92,7 +95,6 @@ function IEditor(props) {
       text: editor.getText(),
       content: editor.getHtml(),
     }
-    console.log(articleId)
 
     // 有 article_id 则是编辑
     if (articleId || +articleId === 0) { // ?? 是为了确保id是 0 是为真值条件, 否则 if 0 不通过
@@ -135,7 +137,14 @@ function IEditor(props) {
                       key={item.id}
                     >
                       { item.name } :
-                      <input type="radio" name="first-classification" value={item.id} id={item.id} defaultChecked={item.id===firstCId} onChange={ onChange } />
+                      <input 
+                        id={item.id} 
+                        type="radio" 
+                        name="first-classification" 
+                        value={item.id} 
+                        checked={item.id===firstCId}
+                        onChange={ onChange } 
+                      />
                     </label>
                   })
                 }
@@ -150,11 +159,12 @@ function IEditor(props) {
                       key={item.id}
                     >
                       { item.name } :
-                      <input type="radio" 
+                      <input 
+                        type="radio" 
                         id={item.id} 
                         value={item.id} 
                         name="second-classification" 
-                        defaultChecked={ item.id === secondCId } 
+                        checked={ item.id === secondCId } 
                         onChange={ onChange } 
                       />
                     </label>
@@ -168,7 +178,7 @@ function IEditor(props) {
 
             <div className="editor-container">
               <div className="editor-title">
-                <input type={'text'} name="title" value={article?.title}  placeholder="请输入标题" onChange={ onChange } />
+                <input type={'text'} name="title" defaultValue={article?.title}  placeholder="请输入标题" onChange={ onChange } />
               </div>
               <div className="editor-paper">
                 <Editor

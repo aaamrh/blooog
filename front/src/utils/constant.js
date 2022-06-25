@@ -1,3 +1,3 @@
 module.exports = {
-  TOKEN_KEY: 'tk'
+  TOKEN_KEY: '3w45FAGF6tjoj9043qQAIqwrdw'
 }

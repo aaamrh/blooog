@@ -37,6 +37,10 @@ module.exports = {
   },
   getClassifyListFailInfo: {
     code: 10201,
+    message: '查找分类列表失败，请重试'
+  },
+  getClassifyFailInfo: {
+    code: 10202,
     message: '查找分类失败，请重试'
   },
   getArticleListFailInfo: {
@@ -71,5 +75,6 @@ module.exports = {
  * 
  * 10200 分类相关
  * 10201 查找分类列表失败
+ * 10201 查找分类失败
  * 
 */

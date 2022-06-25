@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 function ArticleCard(props) {
   const { article } = props;
   const { title, content, createdAt, read, id, text } = article;
+  console.log('article', article)
 
   return (
     <div className="rh-profile-card">
