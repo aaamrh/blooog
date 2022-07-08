@@ -2,7 +2,7 @@
  * 验证码接口
 */
 
-const { default: Request } = require("../utils/request")
+const { default: Request } = require("./request")
 
 class Api extends Request {
   getCaptcha (params) {

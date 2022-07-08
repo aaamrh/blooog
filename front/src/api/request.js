@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { TOKEN_KEY } from './constant'
+import { TOKEN_KEY } from '../utils/constant'
 
 class Request {
   constructor(){
@@ -18,10 +18,10 @@ const _request = axios.create({
 
 _request.interceptors.response.use(
   (response) => {
-    const { code } = response.data
+    const { code, message='' } = response.data
 
     if (code) {
-      handleError(code)
+      handleError(code, message)
       console.error('错误🍐', response)
       return Promise.reject(response)
     }
@@ -46,7 +46,7 @@ _request.interceptors.request.use(
   }
 )
 
-function handleError (code) {
+function handleError (code, message) {
   switch(code){
     case 10008:
       Cookies.remove(TOKEN_KEY)
@@ -54,7 +54,7 @@ function handleError (code) {
       break
 
     default:
-      alert(`错误${code}`)
+      alert(`😭😭😭 错误: ${code}, ${message}`)
       return Promise.reject()
   }
 }

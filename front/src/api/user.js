@@ -2,7 +2,7 @@
  * 封装用户接口
 */
 
-const { default: Request } = require("../utils/request")
+const { default: Request } = require("./request")
 
 class Api extends Request {
   login (params) {

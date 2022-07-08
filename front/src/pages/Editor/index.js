@@ -6,12 +6,9 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import '@wangeditor/editor/dist/css/style.css';
-import request from '../../utils/request';
 import { useGetClassify } from '../../store/action';
 import ArticleApi from '../../api/article';
 import { useGetArticle } from '../../store/action/article';
-import { combineReducers } from 'redux';
-import ClassifyApi from '../../api/classify';
 
 function notEmptyArr (arr) {
   return arr.length > 0

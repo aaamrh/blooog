@@ -27,7 +27,7 @@ function MyRouter () {
 						</Switch>
 					</HomeLayout>
 				}/>
-				<AuthRoute path={['/editor', '/editor/:article_id']} exact component={Editor} />
+				<AuthRoute path={['/e', '/e/:article_id']} exact component={Editor} />
 				{/* <Route path={['/editor', '/editor/:article_id']} exact component={Editor} /> */}
 				<Route path='/' render={()=>{
 					return ( 

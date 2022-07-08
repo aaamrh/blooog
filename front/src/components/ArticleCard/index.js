@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function ArticleCard(props) {
   const { article } = props;
-  const { title, content, createdAt, read, id, text } = article;
+  const { title, content, createdAt, read, uuid, text } = article;
   console.log('article', article)
 
   return (
@@ -17,7 +17,7 @@ function ArticleCard(props) {
         </div>
         <Link
           className="rh-btn"
-          to={{ pathname: `/article/${id}`, state: { article } }}
+          to={{ pathname: `/article/${uuid}`, state: { article } }}
         >
           查看全文
         </Link>
