@@ -1,7 +1,9 @@
+const { v1: uuidv1 } = require('uuid') ;
 const { Article, Classify } = require('../db/model')
 
 async function createArticle ({ title, content, text, classifyId, userId }) {
   const result = await Article.create({
+    uuid: uuidv1(),
     userId,
     title,
     content,
@@ -12,9 +14,9 @@ async function createArticle ({ title, content, text, classifyId, userId }) {
   return result.dataValues
 }
 
-async function selectArticle (id) {
+async function selectArticle (uuid) {
   const result = await Article.findOne({
-    where: { id },
+    where: { uuid },
     include: [
       { model: Classify }
     ]
@@ -83,15 +85,16 @@ async function selectArticleListByClassify (args, { cursor = 0, limit = 10, keyw
  * @param {*}  id, title, content, text, classifyId, userId
  * @returns 0 | 1
  */
-async function updateArticle ({ id, title, content, text, classifyId, userId }) {
+async function updateArticle ({ uuid, title, content, text, classifyId, userId, read }) {
   const result = await Article.update({
     title,
     content,
     text,
+    read,
     classifyId
   }, {
     where: {
-      id,
+      uuid,
       userId
     }
   })

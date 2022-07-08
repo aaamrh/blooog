@@ -2,6 +2,11 @@ const seq = require('../seq')
 const { INTEGER, STRING, TEXT } = require('../types')
 
 const Article = seq.define('article', {
+  uuid: {
+    type: STRING(50),
+    allowNull: false,
+    comment: 'uuid'
+  },
   userId: {
     type: INTEGER,
     allowNull: false,

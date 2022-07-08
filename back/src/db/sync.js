@@ -10,6 +10,6 @@ seq.authenticate().then(() => {
 })
 
 // 同步数据库
-seq.sync({ force: false }).then(() => {
+seq.sync({ force: true }).then(() => {
   process.exit()
 })

@@ -13,10 +13,21 @@ router.prefix("/api/article");
 // 获取文章详情
 router.get("/:articleId", async (ctx, next) => {
   let { articleId } = ctx.params;
-  ctx.body = await getArticleInfo(articleId);
+
+  const result = await getArticleInfo(articleId);
+  
+  if (!result.code) {
+    await modifyArticle(ctx, {
+      id: articleId,
+      ...result.data,
+      read: +result.data.read + 1,
+    });
+  }  
+
+  ctx.body = result;
 });
 
-// 获取文章详情列表
+// 获取文章列表
 router.get("/", async (ctx, next) => {
   let params = {};
   let {
@@ -64,11 +75,11 @@ router.patch("/", async (ctx, next) => {
   const { id, title, content, text, classifyId } = ctx.request.body;
 
   ctx.body = await modifyArticle(ctx, {
-    id,
+    uuid: id,
     title,
     content,
     text,
-    classifyId,
+    classifyId
   });
 });
 

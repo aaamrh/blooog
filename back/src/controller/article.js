@@ -59,12 +59,12 @@ async function publishArticle (ctx, { title, content, text, classifyId }) {
 
 /**
  * 根据文章id获取文章详情
- * @param {文章id} articleId 
+ * @param {文章id} articleUuid 
  * @returns 
  */ 
-async function getArticleInfo (articleId) {
+async function getArticleInfo (articleUuid) {
   try {
-    const article = await selectArticle(articleId)
+    const article = await selectArticle(articleUuid)
     return new SuccessModel(article)
   } catch (e) {
     console.log('getArticleInfo', e)
@@ -77,9 +77,9 @@ async function getArticleInfo (articleId) {
  * @param {文章id} articleId 
  * @returns 
  */ 
-async function modifyArticle (ctx, { id, title, content, text, classifyId }) {
+async function modifyArticle (ctx, { uuid, title, content, text, classifyId, read }) {
   try {
-    const affectedRows = await updateArticle({ id, userId: 1, title, content, text, classifyId }) // 0 | 1 
+    const affectedRows = await updateArticle({ uuid, userId: 1, title, content, text, classifyId, read }) // 0 | 1 
     if (affectedRows) { return new SuccessModel() }
     return new ErrorModel(updateArticleListFailInfo)
   } catch (e) {
