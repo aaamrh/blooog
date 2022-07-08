@@ -9,7 +9,6 @@ const {
   port,
   database
 } = MYSQL_CONF
-console.log('MYSQL_CONF', MYSQL_CONF)
 
 const conf = {
   host,

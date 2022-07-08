@@ -27,7 +27,7 @@ async function getClassify (id) {
     const result = await selectClassify(id)
     return new SuccessModel(result)
   } catch (e) {
-    return new ErrorModel(getClassifyFailInfo)
+    return new ErrorModel(getClassifyListFailInfo)
   }
 }
 

@@ -15,7 +15,7 @@ const {
 
 // 获取文章列表
 async function getArticleList (args, page) {
-  console.log('args', args)
+  console.log('args', args, page)
   try {
     const articles = await selectArticleList(args, page)
     return new SuccessModel(articles)

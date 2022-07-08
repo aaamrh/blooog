@@ -41,7 +41,6 @@ async function selectArticleList ({ type, id, userId, title, classifyId }, { cur
   if (title) { _where.title = title }
   if (classifyId) { _where.classifyId = classifyId }
 
-  console.log('where', _where)
   const result = await Article.findAndCountAll({
     limit,
     offset: cursor * limit,

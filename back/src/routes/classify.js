@@ -19,7 +19,7 @@ router.get('/:id', async (ctx, next) => {
   ctx.body = result
 })
 
-router.get('/init', async (ctx, next) => {
+router.get('/init/init', async (ctx, next) => {
   classify.forEach(item => {
     Classify.create({
       id: item.id,
@@ -28,6 +28,7 @@ router.get('/init', async (ctx, next) => {
       parentId: item.pid
     })
   })
+  ctx.body = 0
 })
 
 
