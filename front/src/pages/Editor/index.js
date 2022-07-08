@@ -18,30 +18,23 @@ function notEmptyArr (arr) {
 }
 
 function IEditor(props) {
-  // 富文本状态
   const [editor, setEditor] = useState(null) // 存储 editor 实例
-  const [htmlContent, setHtmlContent] = useState(null)
+  const [artic, setArtic ] = useState({})
   const [isEditorShow, setIsEditorShow] = useState(false)
+  const [firstCId, setFirstCId] = useState(-1) // 一级分类id
+  const [secondCId, setSecondCId] = useState(-1) // 二级分类id
 
   // 其他状态
   const { data: classify } = useSelector(state => state.classify)
-  const [article, setArticle] = useGetArticle(props)
-  const [firstCId, setFirstCId] = useState(-1) // 一级分类id
-  const [secondCId, setSecondCId] = useState(-1) // 二级分类id
+  const { data: article } = useSelector(state => state.article)
+  const { article_id: articleId } = useParams()
+  const getArticle = useGetArticle() // TODO 获取文章信息
+  const getClassify = useGetClassify()
   // -------- state end -----------
   
-  const getClassify = useGetClassify()
   const toolbarConfig = {}
   const editorConfig = {
-    placeholder: '请输入内容...',
-  }
-  const articleId = article?.id
-
-  if (firstCId < 0 && notEmptyArr(classify)) {
-    const _firstCId = +(classify.find(o => o.parentId === 0).id)
-    const _secondCId = +((classify.find(item => +item.parentId === _firstCId))?.id)
-    setFirstCId(_firstCId)
-    setSecondCId(_secondCId)
+    placeholder: '请输入内容...'
   }
 
   // 及时销毁 editor ，重要！
@@ -54,50 +47,52 @@ function IEditor(props) {
   }, [editor])
 
   useEffect(()=>{
-    // 只在页面打开后, 获取到文章信息后同步一次content
-    // 因为Editor会对content进行处理, 所以htmlContent获取到的不是 '', 而是 <p><br></p>
-    // console.log(article, htmlContent)
-    if (  htmlContent === null && article?.content ) {
-      setHtmlContent(article?.content)
-      setFirstCId(article.classify.parentId)
-      setSecondCId(article.classifyId)
+    if (firstCId < 0 && notEmptyArr(classify)) {
+      const _firstCId = +(classify.find(o => o.parentId === 0).id)
+      const _secondCId = +((classify.find(item => +item.parentId === _firstCId))?.id)
+      setFirstCId(_firstCId)
+      setSecondCId(_secondCId) // 根据一级分类, 设置默认二级分类
+    }
+  }, [classify, firstCId]);
+
+  useEffect(()=>{
+    (articleId || articleId === 0) && getArticle(articleId)
+  }, articleId);
+
+  useEffect(()=>{
+    if (article.id || article.id === 0) {
+      setFirstCId(article?.classify.parentId)
+      setSecondCId(article?.classifyId)
+      setArtic(article)
     }
   }, [article])
-
 
   useEffect(()=>{
     setIsEditorShow(true)
     getClassify()
   }, []);
 
-  
   const onChange = (e) => {
     const target = e.target
-    if (target.name === 'first-classification') { 
-      setFirstCId( +target.value ); 
-      setSecondCId( classify.find(o => +o.parentId === +target.value).id )
-      return 
-    }
+    if (target.name === 'first-classify') {  setFirstCId( +target.value ); return }
+    if (target.name === 'second-classify') { setSecondCId(+target.value); return }
 
-    if (target.name === 'second-classification') { setSecondCId(+target.value); return }
-
-    setArticle({
-      ...article,
-      [ target.name ] : target.value
+    setArtic({
+      ...artic,
+      [target.name]: target.value
     })
   }
 
   const submit = async () => {
     let data = {
-      ...article,
-      firstCId,
-      secondCId,
+      ...artic,
+      classifyId: secondCId,
       text: editor.getText(),
       content: editor.getHtml(),
     }
 
     // 有 article_id 则是编辑
-    if (articleId || +articleId === 0) { // ?? 是为了确保id是 0 是为真值条件, 否则 if 0 不通过
+    if (articleId || +articleId === 0) {
       const result = await ArticleApi.modifyArticles({
         data,
         id: articleId
@@ -140,7 +135,7 @@ function IEditor(props) {
                       <input 
                         id={item.id} 
                         type="radio" 
-                        name="first-classification" 
+                        name="first-classify" 
                         value={item.id} 
                         checked={item.id===firstCId}
                         onChange={ onChange } 
@@ -163,7 +158,7 @@ function IEditor(props) {
                         type="radio" 
                         id={item.id} 
                         value={item.id} 
-                        name="second-classification" 
+                        name="second-classify" 
                         checked={ item.id === secondCId } 
                         onChange={ onChange } 
                       />
@@ -178,14 +173,14 @@ function IEditor(props) {
 
             <div className="editor-container">
               <div className="editor-title">
-                <input type={'text'} name="title" defaultValue={article?.title}  placeholder="请输入标题" onChange={ onChange } />
+                <input type='text' name="title" defaultValue={artic.title}  placeholder="请输入标题" onChange={ onChange } />
               </div>
               <div className="editor-paper">
                 <Editor
                   defaultConfig={ editorConfig }
-                  value={ htmlContent }
+                  value={ artic.content }
                   onCreated={setEditor}
-                  onChange={editor => setHtmlContent(editor.getHtml())}
+                  // onChange={editor => setHtmlContent(editor.getHtml())}
                   mode="default"
                   className="paper"
                   style={{ 

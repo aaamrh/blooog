@@ -148,6 +148,8 @@
 		overflow: hidden;
 		
 		header {
+			display: flex;
+			justify-content: space-between;
 			height: 60px;
 			background: $white;
 			box-shadow: 1px 1px 5px -1px $gray-500;
@@ -155,7 +157,18 @@
 
 			.nav{
 				margin-top: $gap-lg;
+
+				&+a{
+					line-height: 60px;
+					margin-right: $gap-base;
+					color: $primary;
+
+					&:hover{
+						text-decoration: underline;
+					}
+				}
 			}
+			
 		}
 		
 		.body{

@@ -9,10 +9,6 @@ const User = seq.define('user', {
   uname: {
     type: STRING(20),
     allowNull: false
-  },
-  password: {
-    type: STRING(16),
-    allowNull: false
   }
 })
 

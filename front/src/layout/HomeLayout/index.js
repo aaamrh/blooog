@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux'
 import ArticleCard from '../../components/ArticleCard';
 import RhNav from '../../components/RhNav';
@@ -22,6 +22,8 @@ function HomeLayout (props) {
 
 	return <div className="page-home-layout">
 		<RhProgress width={progressWidth} />
+
+		{/* 左侧自我介绍 */}
 		<div className="profile">
 			{/* <div className="avatar">
 				<img src="/avatar.png" alt='头像' />
@@ -39,12 +41,11 @@ function HomeLayout (props) {
 					{/* 于是起名：<b className="underline">山海行</b>。 */}
 				</code>
 			</div>
-		</div> 
+		</div>
 		<div className="main">
 			<header>
-				{ 
-					navs && <RhNav className="nav" navlist={navs} pathname={pathname} />
-				}
+				<RhNav className="nav" navlist={navs} pathname={pathname} />
+				<Link to='/editor'>写文章</Link>
 			</header>
 			<section className="body" onScroll={onScroll}>
 				{ props.children }

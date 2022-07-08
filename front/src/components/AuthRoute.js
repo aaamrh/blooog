@@ -11,7 +11,7 @@ function AuthRoute (props) {
   if (!token) {
      return <Redirect to={{
       pathname: '/login',
-      search: `from=${ location.pathname }`
+      search: `from=${ encodeURIComponent(location.pathname) }`
     }} />
   }
 

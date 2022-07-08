@@ -49,26 +49,26 @@ router.get("/", async (ctx, next) => {
 
 // 发布文章
 router.post("/", async (ctx, next) => {
-  const { title, content, text, firstCId, secondCId } = ctx.request.body;
+  const { title, content, text, classifyId } = ctx.request.body;
 
   ctx.body = await publishArticle(ctx, {
     title,
     content,
     text,
-    classifyId: secondCId ?? firstCId,
+    classifyId
   });
 });
 
 // 修改文章
 router.patch("/", async (ctx, next) => {
-  const { id, title, content, text, firstCId, secondCId } = ctx.request.body;
+  const { id, title, content, text, classifyId } = ctx.request.body;
 
   ctx.body = await modifyArticle(ctx, {
     id,
     title,
     content,
     text,
-    classifyId: secondCId ?? firstCId,
+    classifyId,
   });
 });
 

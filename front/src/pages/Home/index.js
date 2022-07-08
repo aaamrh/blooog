@@ -1,18 +1,18 @@
-import { lazy, Suspense, useState, useEffect, memo, useMemo, useRef } from 'react';
-import { useLocation, useParams, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux'
-import ArticleCard from '../../components/ArticleCard';
-import RhNav from '../../components/RhNav';
+import { lazy, Suspense, useState, useEffect, memo, useMemo, useRef } from "react";
+import { useLocation, useParams, useHistory, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux"
+import ArticleCard from "../../components/ArticleCard";
+import RhNav from "../../components/RhNav";
 
-import  '../../mock/test.mock';
-import useLoadmore from '../../hooks/useScroll';
-import { getNav } from '../../utils/getNav';
-import ArticleApi from '../../api/article';
-import { useGetArticles } from '../../store/action/article';
-import { GET_ARTICLES, GET_MORE_ARTICLES } from '../../store/reducer/articles';
-import { useGetClassify } from '../../store/action';
-import { SET_CURRENT_CLASSIFY } from '../../store/reducer/classify';
-import img from '/public/images/3dr_mono.png'
+import  "../../mock/test.mock";
+import useLoadmore from "../../hooks/useScroll";
+import { getNav } from "../../utils/getNav";
+import ArticleApi from "../../api/article";
+import { useGetArticles } from "../../store/action/article";
+import { GET_ARTICLES, GET_MORE_ARTICLES } from "../../store/reducer/articles";
+import { useGetClassify } from "../../store/action";
+import { SET_CURRENT_CLASSIFY } from "../../store/reducer/classify";
+import img from "/public/images/3dr_mono.png"
 
 // 计算函数
 function computedTransform(num, doc) {
@@ -61,7 +61,6 @@ function Home (props) {
 			document.removeEventListener('mousemove', pictureTranform)
 		}
 	}, [])
-
 
 	useEffect(() => {
 		const getArticleType = () => {
@@ -114,14 +113,15 @@ function Home (props) {
 				<div className="m-book type-a">
 					<div className="page page-1">
 						<h1 className="title">《令人哇塞的网站》</h1>
-						<div className='bear'>
+						<div className="bear">
 							<div className="content"></div>
 						</div>
 					</div>
 					<div className="page page-2">
-						<ul className='list'>
-							<li><a href="https://www.ruanyifeng.com/blog/archives.html" target={'_blank'}>阮一峰</a></li>
-							<li><a href="https://www.zhangxinxu.com/" target={'_blank'}>张鑫旭</a></li>
+						<ul className="list">
+							<li><Link to="https://www.ruanyifeng.com/blog/archives.html" target="_blank">阮一峰</Link></li>
+							<li><Link to="https://www.zhangxinxu.com/" target="_blank">张鑫旭</Link></li>
+							<li><Link to="http://best.maruihua.cn/navigation" target="_blank">查看更多</Link></li>
 						</ul>
 					</div>
 				</div>

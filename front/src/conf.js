@@ -64,24 +64,29 @@ const _subNavs = {
 }
 
 const _classify = [
-	{id: 1, type: 'front-end', name: '前端', parentId: 0},
-	{id: 2, type: 'back-end', name: '后端', parentId: 0},
-	{id: 3, type: 'diary', name: '日记', parentId: 0},
-	{id: 4, type: 'database', name: '数据库', parentId: 0},
-	{id: 5, type: 'js', name: 'JavaScript', parentId: 1},
-	{id: 6, type: 'react', name: 'React', parentId: 1},
-	{id: 7, type: 'vue', name: 'Vue', parentId: 1},
-	{id: 8, type: 'threejs', name: 'Threejs', parentId: 1},
-	{id: 9, type: 'webgl', name: 'WebGL', parentId: 1},
-	{id: 10, type: 'node', name: 'Node', parentId: 2},
-	{id: 11, type: 'koa', name: 'Koa', parentId: 2},
-	{id: 12, type: 'express', name: 'Express', parentId: 2},
-	{id: 13, type: 'flask', name: 'Flask', parentId: 2},
-	{id: 14, type: 'financing', name: '理财', parentId: 3},
-	{id: 15, type: 'health', name: '健康', parentId: 3},
-	{id: 16, type: 'think', name: '观点与感悟', parentId: 3},
-	{id: 17, type: 'mysql', name: 'MySQL', parentId: 4},
-	{id: 18, type: 'mongodb', name: 'MongoDB', parentId: 4}
+  {id: 100, title: "前端", value: "front-end", pid: 0, },
+  {id: 101, title: "JavaScript", value: "js", pid: 100, },
+  {id: 102, title: "React", value: "react", pid: 100, },
+  {id: 103, title: "Vue", value: "vue", pid: 100, },
+  {id: 104, title: "Threejs", value: "threejs", pid: 100, },
+  {id: 105, title: "WebGL", value: "webgl", pid: 100, },
+  {id: 106, title: "CSS", value: "css", pid: 100, },
+  // 后端
+  {id: 200, title: "后端", value: "back-end", pid: 0, },
+  {id: 201, title: "Node", value: "node", pid: 200, },
+  {id: 202, title: "Koa", value: "koa", pid: 200, },
+  {id: 203, title: "Express", value: "express", pid: 200, },
+  {id: 204, title: "Flask", value: "flask", pid: 200, },
+  // 日记
+  {id: 300, title: "日记", value: "diary", pid: 0, },
+  {id: 301, title: "理财", value: "financing", pid: 300, },
+  {id: 302, title: "健康", value: "health", pid: 300, },
+  {id: 303, title: "观点与感悟", value: "think", pid: 300, },
+  // service
+  {id: 400, title: "服务器", value: "service", pid: 0, },
+  {id: 401, title: "Nginx", value: "nginx", pid: 400, },
+  {id: 402, title: "MySQL", value: "mysql", pid: 400, },
+  {id: 403, title: "MongoDB", value: "mongodb", pid: 400, },
 ]
 
 let navs = [
