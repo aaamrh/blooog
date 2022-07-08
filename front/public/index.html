@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
     <meta name="keywords" content="山海行,健康管理,前端,感悟">
     <meta
       name="description"
@@ -40,8 +39,13 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <!-- <script src="/cdn/axios/0.27.2/axios.min.js" type="application/javascript"></script> -->
-    <script src="https://cdn.staticfile.org/axios/0.27.2/axios.min.js" type="application/javascript"></script>
+
+    <% if (process.env.NODE_ENV === 'development') { %>
+      <script src="https://cdn.staticfile.org/axios/0.27.2/axios.min.js" type="application/javascript"></script>
+    <% } else { %>
+      <script src="/cdn/axios/0.27.2/axios.min.js" type="application/javascript"></script>
+    <% } %>
+    
     
   </body>
 </html>

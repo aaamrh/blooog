@@ -21,7 +21,7 @@
   },
   "scripts": {
     "dev": "webpack serve --mode development --port 3100",
-    "_build": "webpack"
+    "_build": "webpack --mode development"
   },
   "eslintConfig": {
     "extends": [
