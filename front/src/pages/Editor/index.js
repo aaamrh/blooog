@@ -1,32 +1,11 @@
 /**
  * 变量中大写C => classify 的简写
  */
-<<<<<<< HEAD
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { Editor, Toolbar } from '@wangeditor/editor-for-react';
-import '@wangeditor/editor/dist/css/style.css';
-import { useGetClassify } from '../../store/action';
-import ArticleApi from '../../api/article';
-import { useGetArticle } from '../../store/action/article';
-
-function notEmptyArr (arr) {
-  return arr.length > 0
-}
-
-function IEditor(props) {
-  const [editor, setEditor] = useState(null) // 存储 editor 实例
-  const [artic, setArtic ] = useState({})
-  const [isEditorShow, setIsEditorShow] = useState(false)
-  const [firstCId, setFirstCId] = useState(-1) // 一级分类id
-  const [secondCId, setSecondCId] = useState(-1) // 二级分类id
-=======
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { Editor, Toolbar } from "@wangeditor/editor-for-react";
 import "@wangeditor/editor/dist/css/style.css";
-import request from "../../utils/request";
 import { useGetClassify } from "../../store/action";
 import ArticleApi from "../../api/article";
 import { useGetArticle } from "../../store/action/article";
@@ -36,40 +15,24 @@ function notEmptyArr(arr) {
 }
 
 function IEditor(props) {
-  // 富文本状态
   const [editor, setEditor] = useState(null); // 存储 editor 实例
-  const [htmlContent, setHtmlContent] = useState(null);
->>>>>>> 1fdfeed0cbc87928dbbd52b91944afe17cb2fe5e
+  const [artic, setArtic] = useState({});
+  const [isEditorShow, setIsEditorShow] = useState(false);
+  const [firstCId, setFirstCId] = useState(-1); // 一级分类id
+  const [secondCId, setSecondCId] = useState(-1); // 二级分类id
 
   // 其他状态
-  const { data: classify } = useSelector(state => state.classify)
-  const { data: article } = useSelector(state => state.article)
-  const { article_id: articleId } = useParams()
-  const getArticle = useGetArticle() // TODO 获取文章信息
-  const getClassify = useGetClassify()
-  // -------- state end -----------
-<<<<<<< HEAD
-  
-  const toolbarConfig = {}
-  const editorConfig = {
-    placeholder: '请输入内容...'
-=======
-
+  const { data: classify } = useSelector((state) => state.classify);
+  const { data: article } = useSelector((state) => state.article);
+  const { article_id: articleId } = useParams();
+  const getArticle = useGetArticle(); // TODO 获取文章信息
   const getClassify = useGetClassify();
+  // -------- state end -----------
+
   const toolbarConfig = {};
   const editorConfig = {
-    placeholder: '请输入内容...',
-  }
-  const articleId = article?.id
-
-  if (firstCId < 0 && notEmptyArr(classify)) {
-    const _firstCId = +classify.find((o) => o.parentId === 0).id;
-    const _secondCId = +classify.find((item) => +item.parentId === _firstCId)
-      ?.id;
-    setFirstCId(_firstCId);
-    setSecondCId(_secondCId);
->>>>>>> 1fdfeed0cbc87928dbbd52b91944afe17cb2fe5e
-  }
+    placeholder: "请输入内容...",
+  };
 
   // 及时销毁 editor ，重要！
   useEffect(() => {
@@ -80,74 +43,49 @@ function IEditor(props) {
     };
   }, [editor]);
 
-<<<<<<< HEAD
-  useEffect(()=>{
-    if (firstCId < 0 && notEmptyArr(classify)) {
-      const _firstCId = +(classify.find(o => o.parentId === 0).id)
-      const _secondCId = +((classify.find(item => +item.parentId === _firstCId))?.id)
-      setFirstCId(_firstCId)
-      setSecondCId(_secondCId) // 根据一级分类, 设置默认二级分类
-=======
   useEffect(() => {
-    // 只在页面打开后, 获取到文章信息后同步一次content
-    // 因为Editor会对content进行处理, 所以htmlContent获取到的不是 '', 而是 <p><br></p>
-    console.log(article, htmlContent)
-    if (  htmlContent === null && article?.content ) {
-      setHtmlContent(article?.content)
->>>>>>> 1fdfeed0cbc87928dbbd52b91944afe17cb2fe5e
+    if (firstCId < 0 && notEmptyArr(classify)) {
+      const _firstCId = +classify.find((o) => o.parentId === 0).id;
+      const _secondCId = +classify.find((item) => +item.parentId === _firstCId)
+        ?.id;
+      setFirstCId(_firstCId);
+      setSecondCId(_secondCId); // 根据一级分类, 设置默认二级分类
     }
   }, [classify, firstCId]);
 
-  useEffect(()=>{
-    (articleId || articleId === 0) && getArticle(articleId)
+  useEffect(() => {
+    (articleId || articleId === 0) && getArticle(articleId);
   }, articleId);
 
-<<<<<<< HEAD
-  useEffect(()=>{
-    if (article.id || article.id === 0) {
-      setFirstCId(article?.classify.parentId)
-      setSecondCId(article?.classifyId)
-      setArtic(article)
-    }
-  }, [article])
-
-  useEffect(()=>{
-    setIsEditorShow(true)
-    getClassify()
-  }, []);
-
-  const onChange = (e) => {
-    const target = e.target
-    if (target.name === 'first-classify') {  setFirstCId( +target.value ); return }
-    if (target.name === 'second-classify') { setSecondCId(+target.value); return }
-
-    setArtic({
-      ...artic,
-      [target.name]: target.value
-=======
   useEffect(() => {
+    if (article.id || article.id === 0) {
+      setFirstCId(article?.classify.parentId);
+      setSecondCId(article?.classifyId);
+      setArtic(article);
+    }
+  }, [article]);
+
+  useEffect(() => {
+    setIsEditorShow(true);
     getClassify();
   }, []);
 
   const onChange = (e) => {
     const target = e.target;
-    if (target.name === "first-classification") {
+    if (target.name === "first-classify") {
       setFirstCId(+target.value);
-      setSecondCId(classify.find((o) => +o.parentId === +target.value).id);
+      return;
+    }
+    if (target.name === "second-classify") {
+      setSecondCId(+target.value);
       return;
     }
 
-    if (target.name === "second-classification") {
-      setSecondCId(target.value);
-      return;
-    }
-
-    setArticle({
-      ...article,
-      [ target.name ] : target.value
->>>>>>> 1fdfeed0cbc87928dbbd52b91944afe17cb2fe5e
-    })
-  }
+    setArtic({
+      ...artic,
+      [target.name]: target.value,
+    });
+  };
 
   const submit = async () => {
     let data = {
@@ -155,19 +93,10 @@ function IEditor(props) {
       classifyId: secondCId,
       text: editor.getText(),
       content: editor.getHtml(),
-<<<<<<< HEAD
-    }
-
-    // 有 article_id 则是编辑
-    if (articleId || +articleId === 0) {
-=======
     };
-    console.log(articleId);
 
     // 有 article_id 则是编辑
     if (articleId || +articleId === 0) {
-      // ?? 是为了确保id是 0 是为真值条件, 否则 if 0 不通过
->>>>>>> 1fdfeed0cbc87928dbbd52b91944afe17cb2fe5e
       const result = await ArticleApi.modifyArticles({
         data,
         id: articleId,
@@ -186,10 +115,9 @@ function IEditor(props) {
 
   return (
     <div className="page-editor">
-<<<<<<< HEAD
       {!isEditorShow && <p>loading</p>}
-      {
-        isEditorShow &&  <>
+      {isEditorShow && (
+        <>
           <div className="tool-bar">
             <Toolbar
               editor={editor}
@@ -198,155 +126,85 @@ function IEditor(props) {
             />
           </div>
           <div className="editor-main">
-            <aside className='m-selections'>
-              <div className='selection'>
+            <aside className="m-selections">
+              <div className="selection">
                 <h4>一级分类</h4>
-                {
-                  classify.length && classify.filter(o => o.parentId === 0).map(item => {
-                    return <label 
-                      htmlFor={item.id} 
-                      key={item.id}
-                    >
-                      { item.name } :
-                      <input 
-                        id={item.id} 
-                        type="radio" 
-                        name="first-classify" 
-                        value={item.id} 
-                        checked={item.id===firstCId}
-                        onChange={ onChange } 
-                      />
-                    </label>
-                  })
-                }
-                { !classify.length && '暂无分类' }
+                {classify.length &&
+                  classify
+                    .filter((o) => o.parentId === 0)
+                    .map((item) => {
+                      return (
+                        <label htmlFor={item.id} key={item.id}>
+                          {item.name} :
+                          <input
+                            id={item.id}
+                            type="radio"
+                            name="first-classify"
+                            value={item.id}
+                            checked={item.id === firstCId}
+                            onChange={onChange}
+                          />
+                        </label>
+                      );
+                    })}
+                {!classify.length && "暂无分类"}
               </div>
               <div className="selection">
                 <h4>二级分类</h4>
-                {
-                  classify.length && classify.filter(o => o.parentId === +firstCId).map(item => {
-                    return <label 
-                      htmlFor={item.id} 
-                      key={item.id}
-                    >
-                      { item.name } :
-                      <input 
-                        type="radio" 
-                        id={item.id} 
-                        value={item.id} 
-                        name="second-classify" 
-                        checked={ item.id === secondCId } 
-                        onChange={ onChange } 
-                      />
-                    </label>
-                  })
-                }
-                { !classify.length && '暂无分类' }
+                {classify.length &&
+                  classify
+                    .filter((o) => o.parentId === +firstCId)
+                    .map((item) => {
+                      return (
+                        <label htmlFor={item.id} key={item.id}>
+                          {item.name} :
+                          <input
+                            type="radio"
+                            id={item.id}
+                            value={item.id}
+                            name="second-classify"
+                            checked={item.id === secondCId}
+                            onChange={onChange}
+                          />
+                        </label>
+                      );
+                    })}
+                {!classify.length && "暂无分类"}
               </div>
-              <button className='editor-btn' onClick={ submit }>发布</button>
-              <button className='editor-btn'>保存到草稿</button>
+              <button className="editor-btn" onClick={submit}>
+                发布
+              </button>
+              <button className="editor-btn">保存到草稿</button>
             </aside>
 
             <div className="editor-container">
               <div className="editor-title">
-                <input type='text' name="title" defaultValue={artic.title}  placeholder="请输入标题" onChange={ onChange } />
+                <input
+                  type="text"
+                  name="title"
+                  defaultValue={artic.title}
+                  placeholder="请输入标题"
+                  onChange={onChange}
+                />
               </div>
               <div className="editor-paper">
                 <Editor
-                  defaultConfig={ editorConfig }
-                  value={ artic.content }
+                  defaultConfig={editorConfig}
+                  value={artic.content}
                   onCreated={setEditor}
                   // onChange={editor => setHtmlContent(editor.getHtml())}
                   mode="default"
                   className="paper"
-                  style={{ 
-                    overflowY: 'hidden', 
-                    height: 780,  
+                  style={{
+                    overflowY: "hidden",
+                    height: 780,
                   }}
                 />
               </div>
-=======
-      <div className="editor">
-        <Toolbar editor={editor} defaultConfig={toolbarConfig} mode="default" />
-        <div className="editor-main">
-          <aside className="m-selections">
-            <div className="selection">
-              <h4>一级分类</h4>
-              {classify.length &&
-                classify
-                  .filter((o) => o.parentId === 0)
-                  .map((item) => {
-                    return (
-                      <label htmlFor={item.id} key={item.id}>
-                        {item.name} :
-                        <input
-                          type="radio"
-                          name="first-classification"
-                          value={item.id}
-                          id={item.id}
-                          defaultChecked={item.id === firstCId}
-                          onChange={onChange}
-                        />
-                      </label>
-                    );
-                  })}
-              {!classify.length && "暂无分类"}
-            </div>
-            <div className="selection">
-              <h4>二级分类</h4>
-              {classify.length &&
-                classify
-                  .filter((o) => o.parentId === +firstCId)
-                  .map((item) => {
-                    return (
-                      <label htmlFor={item.id} key={item.id}>
-                        {item.name} :
-                        <input
-                          type="radio"
-                          id={item.id}
-                          value={item.id}
-                          name="second-classification"
-                          defaultChecked={item.id === secondCId}
-                          onChange={onChange}
-                        />
-                      </label>
-                    );
-                  })}
-              {!classify.length && "暂无分类"}
-            </div>
-            <button className="editor-btn" onClick={submit}>
-              发布
-            </button>
-            <button className="editor-btn">保存到草稿</button>
-          </aside>
-          <div className="editor-container">
-            <div className="editor-title">
-              <input
-                type={"text"}
-                name="title"
-                value={article?.title}
-                placeholder="请输入标题"
-                onChange={onChange}
-              />
-            </div>
-            <div className="editor-paper">
-              <Editor
-                defaultConfig={editorConfig}
-                value={htmlContent}
-                onCreated={setEditor}
-                onChange={(editor) => setHtmlContent(editor.getHtml())}
-                mode="default"
-                className="paper"
-                style={{
-                  overflowY: "hidden",
-                  height: '100%',
-                }}
-              />
->>>>>>> 1fdfeed0cbc87928dbbd52b91944afe17cb2fe5e
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }
