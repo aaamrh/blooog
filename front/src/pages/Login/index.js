@@ -49,7 +49,7 @@ function Login (props) {
 
   function toDestiny () {
     const query = getQuery(location.search)
-    const to = query.from || '/'
+    const to = decodeURIComponent(query.from) || '/'
     history.push(to)
   }
 
