@@ -11,9 +11,15 @@
   .nav{
     margin-bottom: $gap-base;
   }
-
   .content{
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+    box-sizing: border-box;
+    height: calc(100vh - 60px);
+    padding: $gap-base;
     .alpha{
+      width: 70%;
       .msg {
         text-align: center;
         color: $green;
@@ -21,6 +27,7 @@
     }
 
     .beta{
+      width: 30%;
       .m-cube{
         cursor: pointer;
         .cube{

@@ -175,25 +175,9 @@
 			position: relative;
 			overflow: auto;
 			box-sizing: border-box;
-			padding: $gap-base;
-			height: calc(100% - 60px);
+			// padding: $gap-base;
+			height: calc(100vh - 60px);
 		}
-
-		.content{
-			display: flex;
-			flex-direction: row;
-			// padding: 0 $gap-lg;
-			height: 85vh;
-			overflow: auto;
-
-			.alpha{
-				width: 70%;
-			}
-			.beta{
-				width: 30%;
-			}
-		}
-
 	}
 }
 .underline{

@@ -104,11 +104,10 @@ function Home(props) {
 
   return (
     <div className="page-home" ref={ctntRef}>
-      <RhNav className="nav" navlist={subNav} pathname={pathname} />
-
       <div className="content" ref={domRef}>
         {/* 中间主要内容部分 */}
         <div className="alpha">
+          <RhNav className="nav" navlist={subNav} pathname={pathname} />
           {articles.length > 0 &&
             articles.map((article, index) => {
               return <ArticleCard key={index} article={article} />;
