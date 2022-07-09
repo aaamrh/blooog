@@ -1,13 +1,16 @@
-const CLASSIFY_GET ='CLASSIFY_GET'
-const SET_CURRENT_CLASSIFY = 'SET_CURRENT_CLASSIFY'
+const CLASSIFIES_GET ='CLASSIFIES_GET'
+const CLASSIFY_SET = 'CLASSIFY_SET'
 
 function classify (store={
-  data: [],
-  curClassify: ''
+  data: [], // 所有分类: []
+  classify: '' // 当前分类: react
 }, action) {
   switch (action.type) {
-    case CLASSIFY_GET:
+    case CLASSIFIES_GET:
       return { ...store, data: action.data }
+
+    case CLASSIFY_SET:
+      return { ...store, classify: action.classify }
 
     default:
       return store
@@ -15,7 +18,8 @@ function classify (store={
 }
 
 export {
-  CLASSIFY_GET
+  CLASSIFIES_GET,
+  CLASSIFY_SET
 }
 
 export default classify

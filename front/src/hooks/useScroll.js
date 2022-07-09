@@ -1,61 +1,83 @@
 import { useEffect, useRef, useState } from "react";
-import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { useGetArticles } from "../store/action/article";
-import { GET_MORE_ARTICLES } from "../store/reducer/articles";
+import ArticleApi from "../api/article";
 
 let can = true
 let noMore = false
 
-function useLoadmore () {
+function useLoadmore (limit=10) {
   const dom = useRef(null)
-  const [msg, setMsg] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
-  const { data: classifies, curClassify } = useSelector(state => state.classify) // FIXME 可以从url中获取
-  const { data: articles } = useSelector(state => state.articles)
-  const getArticles = useGetArticles()
-  const cursorRef = useRef(1) // 第一页cursor是0， 因此从第二页1开始请求
+  const [result, setResult] = useState([])
+  const [state, setState] = useState(0)
+  const { classify } = useSelector(state => state.classify) // FIXME 可以从url中获取
   
-  useEffect(() => {
-    const node = dom.current
-    // console.log('insert')
+  const cursorRef = useRef(1)
+  const stateMap = {
+    0: {
+      code: 0,
+      msg: '加载完成'
+    },
+    1:{
+      code: 1,
+      msg: '加载中...'
+    },
+    2:{
+      code: 2,
+      msg: '没有更多数据了'
+    },
+  }
 
-    const handleScroll = () => {
-      const { scrollHeight, offsetHeight, scrollTop } = node;
-      if( can && !noMore ){
-        if( scrollHeight <= offsetHeight + scrollTop + 150 ){
-          can = false
-          setMsg('请求中')
-          setIsLoading(true)
-          getArticles( curClassify, cursorRef.current + 1, GET_MORE_ARTICLES ).then(({count, totalPage}) => {
-            can = true
-            if (totalPage === cursorRef.current + 1) { 
-              noMore = true 
-              return setMsg('没有更多数据了')
-            }
-            
-            if (count) { cursorRef.current += 1 }
-            
-            setMsg('')
-            setIsLoading(false)
-          })
-        }
+  const handleScroll = () => {
+    const { scrollHeight, offsetHeight, scrollTop } = dom.current;
+    // 非请求状态 和 有更多数据时，才进行请求
+    if( can && !noMore ){
+      if( scrollHeight <= offsetHeight + scrollTop + 150 ){
+        can = false
+        setState(1)
+        // 请求更多
+        // 页数 每页多少个
+        ArticleApi.getArticles({
+          params: {
+            type: classify, // 分类
+            cursor: cursorRef.current,
+            limit,
+            keywords: "",
+          },
+        }).then(res => {
+          // noMore ??? 返回数量小于 limit 时，说明没有更多数据了
+          console.log('🥝🥝🥝🥝🥝', res)
+          const { articles, totalPage } = res.data.data
+          setResult(articles)
+          setState(0)
+          cursorRef.current += 1
+          if (cursorRef.current >= totalPage) {
+            noMore = true
+            setState(2)
+          }
+        }).finally(() => {
+          can = true
+        })
+
       }
     }
-    node.addEventListener('scroll', handleScroll)
+  }
 
-    return function () {
+  useEffect(() => {
+    const node = dom.current
+    node.addEventListener('scroll', handleScroll)
+    return () => {
+      console.log('remove dom')
       node.removeEventListener('scroll', handleScroll)
     }
-  })
+  }, [dom])
 
   useEffect(() => {
     dom.current.scrollTop = 0
-    cursorRef.current = 0
+    cursorRef.current = 1
     noMore = false
-  }, [curClassify])
+  }, [classify])
   
-  return [dom, isLoading, msg]
+  return [dom, result, stateMap[state] ]
 }
 
 export default useLoadmore

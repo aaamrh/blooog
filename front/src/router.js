@@ -20,6 +20,8 @@ function MyRouter () {
 						</AdminLayout>
 					)
 				}}/>
+
+				{/* 文章 */}
 				<Route path='/article' render={()=>
 					<HomeLayout>
 						<Switch>
@@ -27,23 +29,22 @@ function MyRouter () {
 						</Switch>
 					</HomeLayout>
 				}/>
+
+				{/* 编辑器 */}
 				<AuthRoute path={['/e', '/e/:article_id']} exact component={Editor} />
-				{/* <Route path={['/editor', '/editor/:article_id']} exact component={Editor} /> */}
+
+				{/* FIXME 更好的实现方式: 首页 */}
 				<Route path='/' render={()=>{
 					return ( 
 						<HomeLayout>
-							{/* FIXME 更好的实现方式 */}
 							<Route exact 
 								path={[
 									'/',
-									'/front-end',
-									'/front-end/:type',
-									'/back-end',
-									'/back-end/:type',
-									'/diary',
-									'/diary/:type',
-									'/database',
-									'/database/:type',
+									'/front-end/:type?',
+									'/back-end/:type?',
+									'/diary/:type?',
+									'/database/:type?',
+									'/service/:type?',
 								]} 
 								component={Home}  
 							/>

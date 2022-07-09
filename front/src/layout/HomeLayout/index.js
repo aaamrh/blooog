@@ -1,11 +1,8 @@
-import { useMemo, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux'
-import ArticleCard from '../../components/ArticleCard';
 import RhNav from '../../components/RhNav';
 import RhProgress from '../../components/RhProgress';
-// import { navs, subNavs } from "../../conf";
-import Home from '../../pages/Home';
 import { getNav } from '../../utils/getNav';
 
 function HomeLayout (props) {
@@ -45,7 +42,7 @@ function HomeLayout (props) {
 		<div className="main">
 			<header>
 				<RhNav className="nav" navlist={navs} pathname={pathname} />
-				<Link to='/editor'>写文章</Link>
+				<Link to='/e'>写文章</Link>
 			</header>
 			<section className="body" onScroll={onScroll}>
 				{ props.children }

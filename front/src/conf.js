@@ -99,6 +99,7 @@ let navs = [
 let subNavs = {}
 
 _classify.forEach(item => {
+	console.log(item)
 	if (+item.parentId === 0) {
 		navs.push({
 			id: item.id,
