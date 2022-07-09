@@ -9,17 +9,13 @@ function PageArticle(props) {
   const articleId = match.params?.article_id
   
   useEffect(() => {
-    if (!article && articleId) {
-      setIsReq(true);
+    if (articleId) {
+      !article && setIsReq(true); // 请求是为了增加阅读次数, 如果state中又有数据, 则不显示loading
       ArticleApi.getArticle({ id: articleId }).then((res) => {
-        if (res.data.code) {
-          return
-        } 
-        setArticle(res.data.data)
+        !article && setArticle(res.data.data)
       }).finally(() => { setIsReq(false) });
     }
-  }, [articleId, article])
-
+  }, [])
   
   if (isReq) {
     return <p> 获取文章中... </p>
