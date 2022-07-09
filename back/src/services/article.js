@@ -47,6 +47,9 @@ async function selectArticleList ({ type, id, userId, title, classifyId }, { cur
     limit,
     offset: cursor * limit,
     where: _where,
+    order: [
+      ['createdAt', 'DESC'],
+    ]
   })
 
   let articles = result.rows.map(row => row.dataValues)
@@ -65,6 +68,9 @@ async function selectArticleListByClassify (args, { cursor = 0, limit = 10, keyw
   const result = await Article.findAndCountAll({
     limit,
     offset: cursor * limit,
+    order: [
+      ['createdAt', 'DESC'],
+    ],
     include: [
       {
         model: Classify,
