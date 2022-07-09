@@ -3,7 +3,7 @@
   overflow: auto;
   .editor{
     width: 1200px;
-    margin: 10px auto 0;
+    margin: $gap-lg auto 0;
     .editor-main{
       display: flex;
       justify-content: space-around;
@@ -39,25 +39,29 @@
       
       .editor-container{
         position: relative;
-        padding: 0 $gap-lg;
+        flex-grow: 1;
         box-sizing: border-box;
         background: $white;
-        overflow: auto;
-        flex-grow: 1;
         border-top: 1px solid $gray-400;
+        padding: 0 $gap-lg;
+        overflow: auto;
     
         .editor-title{
           padding-top: $gap-lg;
+          padding-bottom: $gap-sm;
           input{
             font-weight: 800;
             color: $green;
             outline: none;
             border: none;
-            font-size: 30px;
+            font-size: 32px;
           }
         }
         .editor-paper{
           height: 92%;
+          & > div{
+            height: 100%;
+          }
         }
       }
     }

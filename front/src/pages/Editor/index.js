@@ -115,96 +115,93 @@ function IEditor(props) {
 
   return (
     <div className="page-editor">
-      {!isEditorShow && <p>loading</p>}
-      {isEditorShow && (
-        <>
-          <div className="tool-bar">
-            <Toolbar
-              editor={editor}
-              defaultConfig={toolbarConfig}
-              mode="default"
-            />
-          </div>
-          <div className="editor-main">
-            <aside className="m-selections">
-              <div className="selection">
-                <h4>一级分类</h4>
-                {classify.length &&
-                  classify
-                    .filter((o) => o.parentId === 0)
-                    .map((item) => {
-                      return (
-                        <label htmlFor={item.id} key={item.id}>
-                          {item.name} :
-                          <input
-                            id={item.id}
-                            type="radio"
-                            name="first-classify"
-                            value={item.id}
-                            checked={item.id === firstCId}
-                            onChange={onChange}
-                          />
-                        </label>
-                      );
-                    })}
-                {!classify.length && "暂无分类"}
-              </div>
-              <div className="selection">
-                <h4>二级分类</h4>
-                {classify.length &&
-                  classify
-                    .filter((o) => o.parentId === +firstCId)
-                    .map((item) => {
-                      return (
-                        <label htmlFor={item.id} key={item.id}>
-                          {item.name} :
-                          <input
-                            type="radio"
-                            id={item.id}
-                            value={item.id}
-                            name="second-classify"
-                            checked={item.id === secondCId}
-                            onChange={onChange}
-                          />
-                        </label>
-                      );
-                    })}
-                {!classify.length && "暂无分类"}
-              </div>
-              <button className="editor-btn" onClick={submit}>
-                发布
-              </button>
-              <button className="editor-btn">保存到草稿</button>
-            </aside>
+      <div className="editor">
+        <div className="tool-bar">
+          <Toolbar
+            editor={editor}
+            defaultConfig={toolbarConfig}
+            mode="default"
+          />
+        </div>
+        <div className="editor-main">
+          <aside className="m-selections">
+            <div className="selection">
+              <h4>一级分类</h4>
+              {classify.length &&
+                classify
+                  .filter((o) => o.parentId === 0)
+                  .map((item) => {
+                    return (
+                      <label htmlFor={item.id} key={item.id}>
+                        {item.name} :
+                        <input
+                          id={item.id}
+                          type="radio"
+                          name="first-classify"
+                          value={item.id}
+                          checked={item.id === firstCId}
+                          onChange={onChange}
+                        />
+                      </label>
+                    );
+                  })}
+              {!classify.length && "暂无分类"}
+            </div>
+            <div className="selection">
+              <h4>二级分类</h4>
+              {classify.length &&
+                classify
+                  .filter((o) => o.parentId === +firstCId)
+                  .map((item) => {
+                    return (
+                      <label htmlFor={item.id} key={item.id}>
+                        {item.name} :
+                        <input
+                          type="radio"
+                          id={item.id}
+                          value={item.id}
+                          name="second-classify"
+                          checked={item.id === secondCId}
+                          onChange={onChange}
+                        />
+                      </label>
+                    );
+                  })}
+              {!classify.length && "暂无分类"}
+            </div>
+            <button className="editor-btn" onClick={submit}>
+              发布
+            </button>
+            <button className="editor-btn">保存到草稿</button>
+          </aside>
 
-            <div className="editor-container">
-              <div className="editor-title">
-                <input
-                  type="text"
-                  name="title"
-                  defaultValue={artic.title}
-                  placeholder="请输入标题"
-                  onChange={onChange}
-                />
-              </div>
-              <div className="editor-paper">
-                <Editor
-                  defaultConfig={editorConfig}
-                  value={artic.content}
-                  onCreated={setEditor}
-                  // onChange={editor => setHtmlContent(editor.getHtml())}
-                  mode="default"
-                  className="paper"
-                  style={{
-                    overflowY: "hidden",
-                    height: 780,
-                  }}
-                />
-              </div>
+          <div className="editor-container">
+            <div className="editor-title">
+              <input
+                type="text"
+                name="title"
+                defaultValue={artic.title}
+                placeholder="请输入标题"
+                onChange={onChange}
+              />
+            </div>
+            <div className="editor-paper">
+              <Editor
+                defaultConfig={editorConfig}
+                value={artic.content}
+                onCreated={setEditor}
+                // onChange={editor => setHtmlContent(editor.getHtml())}
+                mode="default"
+                style={{
+                  overflowY: "hidden",
+                }}
+              />
             </div>
           </div>
-        </>
-      )}
+        </div>
+      </div>
+      {!isEditorShow && <p>loading</p>}
+      {isEditorShow && <></>}
     </div>
   );
 }
