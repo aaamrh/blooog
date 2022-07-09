@@ -58,7 +58,7 @@ function IEditor(props) {
   }, articleId);
 
   useEffect(() => {
-    if (article.id || article.id === 0) {
+    if (article.uuid) {
       setFirstCId(article?.classify.parentId);
       setSecondCId(article?.classifyId);
       setArtic(article);
@@ -99,7 +99,7 @@ function IEditor(props) {
     if (articleId || +articleId === 0) {
       const result = await ArticleApi.modifyArticles({
         data,
-        id: articleId,
+        uuid: articleId,
       });
       if (result.data.code === 0) {
         return alert("OK");

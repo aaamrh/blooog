@@ -1,5 +1,6 @@
 const { v1: uuidv1 } = require('uuid') ;
-const { Article, Classify } = require('../db/model')
+const { Article, Classify } = require('../db/model');
+const utils = require('../utils')
 
 async function createArticle ({ title, content, text, classifyId, userId }) {
   const result = await Article.create({
@@ -85,13 +86,10 @@ async function selectArticleListByClassify (args, { cursor = 0, limit = 10, keyw
  * @param {*}  id, title, content, text, classifyId, userId
  * @returns 0 | 1
  */
-async function updateArticle ({ uuid, title, content, text, classifyId, userId, read }) {
+async function updateArticle (uuid, userId=1, params) {
+  utils.clearEmptyField(params)
   const result = await Article.update({
-    title,
-    content,
-    text,
-    read,
-    classifyId
+    ...params
   }, {
     where: {
       uuid,

@@ -79,7 +79,7 @@ async function getArticleInfo (articleUuid) {
  */ 
 async function modifyArticle (ctx, { uuid, title, content, text, classifyId, read }) {
   try {
-    const affectedRows = await updateArticle({ uuid, userId: 1, title, content, text, classifyId, read }) // 0 | 1 
+    const affectedRows = await updateArticle(uuid, userId=1, { title, content, text, classifyId, read }) // 0 | 1 
     if (affectedRows) { return new SuccessModel() }
     return new ErrorModel(updateArticleListFailInfo)
   } catch (e) {

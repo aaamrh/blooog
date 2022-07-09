@@ -72,10 +72,10 @@ router.post("/", async (ctx, next) => {
 
 // 修改文章
 router.patch("/", async (ctx, next) => {
-  const { id, title, content, text, classifyId } = ctx.request.body;
-
+  const { uuid, title, content, text, classifyId } = ctx.request.body;
+  
   ctx.body = await modifyArticle(ctx, {
-    uuid: id,
+    uuid,
     title,
     content,
     text,

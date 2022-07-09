@@ -18,4 +18,37 @@ module.exports = {
   random (min=0, max=1) {
     return Math.round( Math.random() * (max - min) + min )
   },
+  dataType (data) {
+    return Object.prototype.toString.call(data).slice(8, -1)
+  },
+  /**
+   * 清空空字符
+   * @param {*} params
+   * @returns
+   */
+  notEmpty(value) {
+    const type = this.dataType(value);
+    switch (type) {
+      case 'String':
+        return value.trim().length > 0;
+      case 'Number':
+        return !isNaN(value);
+      case 'Undefined':
+      case 'Null':
+        return false;
+      case 'Array':
+        return value.length > 0;
+      case 'Object':
+        return Object.keys(value).length;
+      default:
+        return true;
+    }
+  },
+
+  clearEmptyField(params) {
+    for (const key in params) {
+      if (!this.notEmpty(params[key])) delete params[key];
+    }
+    return params;
+  }
 }
