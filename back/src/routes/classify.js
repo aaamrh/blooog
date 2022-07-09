@@ -1,8 +1,5 @@
 const router = require('koa-router')()
-
 const { getClassifyList, getClassify } = require('../controller/classify')
-const { Classify } = require("../db/model")
-const { classify } = require('../utils/layout')
 
 router.prefix('/api/classify')
 
@@ -17,18 +14,6 @@ router.get('/:id', async (ctx, next) => {
   const result = await getClassify(id)
 
   ctx.body = result
-})
-
-router.get('/init/init', async (ctx, next) => {
-  classify.forEach(item => {
-    Classify.create({
-      id: item.id,
-      type: item.value,
-      name: item.title,
-      parentId: item.pid
-    })
-  })
-  ctx.body = 0
 })
 
 
