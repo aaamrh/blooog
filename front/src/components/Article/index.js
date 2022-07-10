@@ -19,7 +19,7 @@ function Article (props) {
     <p className='article-info'>发布时间： {dayjs(createdAt).format("YYYY-MM-DD HH:mm:ss")} <Link to={{ pathname:`/e/${uuid}`, state: {article} }}>编辑</Link></p>
     {/* <ReactMarkdown rehypePlugins={[rehypeRaw]} children={content} /> */}
     
-    <div dangerouslySetInnerHTML={{
+    <div className='article-content' dangerouslySetInnerHTML={{
       __html: content
     }}></div>
   </div>

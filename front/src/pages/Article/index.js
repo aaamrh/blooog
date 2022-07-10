@@ -21,7 +21,9 @@ function PageArticle(props) {
     return <p> 获取文章中... </p>
   } else if (article) {
     return <div className="page-article">
-      <Article article={article} />
+      <div className="page-article-main">
+        <Article article={article} />
+      </div>
     </div>
   } else {
     return <p> 文章不存在 </p>
