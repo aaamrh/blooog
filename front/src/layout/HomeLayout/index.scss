@@ -179,6 +179,16 @@
 			height: calc(100vh - 60px);
 		}
 	}
+
+	@include phone {
+		.profile{
+			display: none;
+		}
+		.main{
+			width: 100%;
+			font-size: 12px;
+		}
+	}
 }
 .underline{
 	text-decoration: underline;

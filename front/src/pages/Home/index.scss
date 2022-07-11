@@ -188,5 +188,17 @@
       }
     }
   }
+
+  
+	@include phone {
+    .content{
+      .alpha{
+        width: 100%;
+      }
+      .beta{
+        display: none;
+      }
+    }
+	}
 }
 

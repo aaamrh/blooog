@@ -55,4 +55,13 @@
 			}
 		}
 	}
+
+	@include phone {
+		.rh-nav{
+			font-size: 12px;
+			a{
+				padding: $gap-mn $gap-sm;
+			}
+		}
+	}
 }

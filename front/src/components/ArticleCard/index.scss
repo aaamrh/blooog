@@ -39,4 +39,22 @@
 			}
 		}
 	}
+
+	@include phone{
+		font-size: 12px;
+		&__title{
+			font-size: 14px;
+		}
+		&__footer{
+			.infos{
+				font-size: 12px;
+				.info:first-child{
+					display: none;
+				}
+			}
+			.rh-btn{
+				padding: $gap-mn $gap-sm;
+			}
+		}
+	}
 }

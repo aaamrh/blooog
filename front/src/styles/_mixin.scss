@@ -1,0 +1,9 @@
+@mixin phone {
+  @media only screen and (min-width: 320px) and (max-width: 640px) and (orientation:portrait) {
+    @content;
+  }
+
+  @media only screen and (min-width: 480px) and (max-width: 767px) and (orientation:landscape) {
+    @content;
+  }
+}
