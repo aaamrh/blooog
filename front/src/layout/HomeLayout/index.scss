@@ -168,7 +168,14 @@
 					}
 				}
 			}
-			
+			@include phone{
+				height: 50px;
+				.nav{
+					&+a{
+						line-height: 50px;
+					}
+				}
+			}
 		}
 		
 		.body{
